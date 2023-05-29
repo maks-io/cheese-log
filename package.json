@@ -1,0 +1,61 @@
+{
+  "name": "cheese-log",
+  "version": "1.0.0",
+  "description": "A colorful logger with browser-/environment-dependent formatting possibilities, table printing, object depth limiting, string- and array-truncating, etc.",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "clear-build-folder": "rm -rf ./build",
+    "transpile": "tsc",
+    "fix-paths": "tsc-alias",
+    "build": "yarn clear-build-folder && yarn transpile && yarn fix-paths",
+    "dev": "yarn nodemon",
+    "test": "jest"
+  },
+  "keywords": [
+    "log",
+    "logger",
+    "debug",
+    "messages",
+    "colors",
+    "ansi colors",
+    "table",
+    "tables",
+    "rows",
+    "columns",
+    "limit",
+    "object",
+    "depth",
+    "truncate",
+    "strings",
+    "arrays"
+  ],
+  "files": [
+    "build"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maks-io/cheese-log.git"
+  },
+  "author": "Markus Kurzmann <markus@kurzmann.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/maks-io/cheese-log/issues"
+  },
+  "homepage": "https://github.com/maks-io/cheese-log#readme",
+  "dependencies": {
+    "ansicolor": "^1.1.100",
+    "capitalize-lightweight": "^1.0.1",
+    "dayjs": "^1.11.7",
+    "string-table": "^0.1.5",
+    "who-am-i-now": "^1.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.2.5",
+    "nodemon": "^2.0.22",
+    "prettier": "^2.8.8",
+    "tsc": "^2.0.4",
+    "tsc-alias": "^1.8.6",
+    "typescript": "^5.0.4"
+  }
+}
