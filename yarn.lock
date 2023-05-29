@@ -421,9 +421,9 @@ undefsafe@^2.0.5:
   resolved "https://registry.yarnpkg.com/undefsafe/-/undefsafe-2.0.5.tgz#38733b9327bdcd226db889fb723a6efd162e6e2c"
   integrity sha512-WxONCrssBM8TSPRqN5EmsjVrsv4A8X12J4ArBiiayv3DyyG3ZlIg6yysuuSYdZsVz3TKcTg2fd//Ujd4CHV1iA==
 
-who-am-i-now@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/who-am-i-now/-/who-am-i-now-1.0.5.tgz#b471a0024e396df4fe5947fbe6697359a88ed68c"
-  integrity sha512-YfoHpecbqeoKl9jsvSWvGo0zAIzvNPznMFEsGHDM17NZ1tjJ+uS7vqdoqGEHqIaQPmj8Qgwdcm5XxPg8zCniHw==
+who-am-i-now@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/who-am-i-now/-/who-am-i-now-1.0.6.tgz#64a40e0a5573c61b809ab0ae1cfb4ababe3b98fd"
+  integrity sha512-KNEedJdxkbrcoCFy+NA2+7nZxcgyCZ3jW48WvqFs5tLoGI4EEbqb2VU81y2U/Wr+BuRs4HDwB8f4hUkc3LNN8w==
   dependencies:
     react-device-detect "^2.2.3"

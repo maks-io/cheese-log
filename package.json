@@ -48,7 +48,7 @@
     "capitalize-lightweight": "^1.0.1",
     "dayjs": "^1.11.7",
     "string-table": "^0.1.5",
-    "who-am-i-now": "^1.0.5"
+    "who-am-i-now": "^1.0.6"
   },
   "devDependencies": {
     "@types/node": "^20.2.5",
