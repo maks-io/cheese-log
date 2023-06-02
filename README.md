@@ -71,7 +71,7 @@ My classical OS terminal would show the output like so:
 
 <img alt="cheeseBasicTerminal" src="./documentation/media/cheeseBasicTerminal.png" />
 
-Check out the live demo at [https://stackblitz.com/edit/cheese-log-simple-usage](https://stackblitz.com/edit/cheese-log-simple-usage?devToolsHeight=33&file=index.ts).
+Check out the live demo at [https://stackblitz.com/edit/cheese-log-simple-usage](https://stackblitz.com/edit/cheese-log-simple-usage?file=index.ts).
 
 ### Example: Explore some initial config's props:
 
@@ -98,7 +98,7 @@ The corresponding output would hide the timestamp and the icon, while showing so
 
 A full list of config options can be found [here](#config--options).
 
-Check out the live demo at [https://stackblitz.com/edit/cheese-log-explore-some-config-props](https://stackblitz.com/edit/cheese-log-explore-some-config-props?devToolsHeight=33&file=index.ts).
+Check out the live demo at [https://stackblitz.com/edit/cheese-log-explore-some-config-props](https://stackblitz.com/edit/cheese-log-explore-some-config-props?file=index.ts).
 
 ### Example: Override config for individual log messages
 
@@ -131,7 +131,7 @@ The corresponding output would be:
 
 <img alt="cheeseOverrideOptions" src="./documentation/media/cheeseOverrideOptions.png" />
 
-Check out the live demo at [https://stackblitz.com/edit/cheese-log-override-config](https://stackblitz.com/edit/cheese-log-override-config?devToolsHeight=33&file=index.ts).
+Check out the live demo at [https://stackblitz.com/edit/cheese-log-override-config](https://stackblitz.com/edit/cheese-log-override-config?file=index.ts).
 
 ### Example: Use built-in color functions
 
@@ -172,7 +172,7 @@ cheese._logLightblue({ showCheeseIcon: false }, "hello world");
 cheese.logMagenta_("foo bar", "1234", "mic check one two", { showDate: false });
 ```
 
-Check out the live demo at [https://stackblitz.com/edit/cheese-log-built-in-color-functions](https://stackblitz.com/edit/cheese-log-built-in-color-functions?devToolsHeight=33&file=index.ts).
+Check out the live demo at [https://stackblitz.com/edit/cheese-log-built-in-color-functions](https://stackblitz.com/edit/cheese-log-built-in-color-functions?file=index.ts).
 
 ### Example: Use context dependent config instead of a static one
 
@@ -208,7 +208,7 @@ The resulting output on Chrome would be...
 
 <img alt="cheeseContextDependentFirefox" src="./documentation/media/cheeseContextDependentFirefox.png" />
 
-Check out the live demo at [https://stackblitz.com/edit/cheese-log-context-dependent-config](https://stackblitz.com/edit/cheese-log-context-dependent-config?devToolsHeight=33&file=index.ts).
+Check out the live demo at [https://stackblitz.com/edit/cheese-log-context-dependent-config](https://stackblitz.com/edit/cheese-log-context-dependent-config?file=index.ts).
 
 ### Example: Use a custom formatMessage function
 
@@ -259,7 +259,7 @@ formatMessage: (
 };
 ```
 
-Check out the live demo at [https://stackblitz.com/edit/cheese-log-custom-msg-format-function](https://stackblitz.com/edit/cheese-log-custom-msg-format-function?devToolsHeight=33&file=index.ts).
+Check out the live demo at [https://stackblitz.com/edit/cheese-log-custom-msg-format-function](https://stackblitz.com/edit/cheese-log-custom-msg-format-function?file=index.ts).
 
 ### Example: Shorten strings
 
@@ -293,7 +293,7 @@ The corresonding output would be:
 
 <img alt="cheeseContextShortenStringsSimple" src="./documentation/media/cheeseContextShortenStringsSimple.png" />
 
-Check out the live demo at [https://stackblitz.com/edit/cheese-log-shorten-strings](https://stackblitz.com/edit/cheese-log-shorten-strings?devToolsHeight=33&file=index.ts).
+Check out the live demo at [https://stackblitz.com/edit/cheese-log-shorten-strings](https://stackblitz.com/edit/cheese-log-shorten-strings?file=index.ts).
 
 The shortening/truncating of strings also works for values in (nested) objects:
 
@@ -359,7 +359,7 @@ Also for arrays, passing `maxArrayLength: 0` is a valid option:
 
 <img alt="cheeseShortenArraysZero" src="./documentation/media/cheeseShortenArraysZero.png" />
 
-Check out the live demo at [https://stackblitz.com/edit/cheese-log-shorten-arrays](https://stackblitz.com/edit/cheese-log-shorten-arrays?devToolsHeight=33&file=index.ts).
+Check out the live demo at [https://stackblitz.com/edit/cheese-log-shorten-arrays](https://stackblitz.com/edit/cheese-log-shorten-arrays?file=index.ts).
 
 ### Example: Limit object depth
 
@@ -391,7 +391,7 @@ The corresponding depth-limited output would be:
 
 <img alt="cheeseDepth" src="./documentation/media/cheeseDepth.png" />
 
-Check out the live demo at [https://stackblitz.com/edit/cheese-log-limit-object-depth](https://stackblitz.com/edit/cheese-log-limit-object-depth?devToolsHeight=33&file=index.ts).
+Check out the live demo at [https://stackblitz.com/edit/cheese-log-limit-object-depth](https://stackblitz.com/edit/cheese-log-limit-object-depth?file=index.ts).
 
 ### Example: Print tables
 
@@ -414,6 +414,17 @@ cheese.debug([
 The corresponding output would be:
 
 <img alt="cheeseTableSimple" src="./documentation/media/cheeseTableSimple.png" />
+
+Similarly to the [built-in color functions](#example-use-built-in-color-functions) you can also use **built-in table functions**, so you don't have to pass the `table: true` prop to the config:
+
+```typescript
+cheese.logTable(...);
+cheese._logTable(...);
+cheese.logTable_(...);
+cheese.infoTable(...);
+cheese._infoTable(...);
+// ... etc. -> all combinations of log-levels plus 'Table' exist!
+```
 
 You can adjust a few formatting options for tables, by setting a `tableOptions` prop:
 
@@ -441,7 +452,7 @@ The corresponding output would be:
 
 Note how the individual formatting functionalities also work inside individual table cells (the depth of object has been limited in this example).
 
-Check out the live demo at [https://stackblitz.com/edit/cheese-log-print-tables](https://stackblitz.com/edit/cheese-log-print-tables?devToolsHeight=33&file=index.ts).
+Check out the live demo at [https://stackblitz.com/edit/cheese-log-print-tables](https://stackblitz.com/edit/cheese-log-print-tables?file=index.ts).
 
 ## Config / options
 

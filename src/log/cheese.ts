@@ -18,31 +18,38 @@ let initialized: boolean = false;
 let globalCheeseConfig: CheeseConfig | ContextDependentCheeseConfig;
 
 const logWithGlobalConfig =
-  (logLevel: LogLevel, colorOverride?: CheeseColors) =>
+  (logLevel: LogLevel, colorOverride?: CheeseColors, useTable = false) =>
   (...args: any[]) => {
     if (!initialized) {
       warnUninitialized(logLevel);
       return;
     }
     console[logLevel](
-      prepareMsg(logLevel, globalCheeseConfig, who, colorOverride, ...args)
+      prepareMsg(
+        logLevel,
+        globalCheeseConfig,
+        who,
+        colorOverride,
+        useTable,
+        ...args
+      )
     );
   };
 
 const logWithPrependedConfig =
-  (logLevel: LogLevel, colorOverride?: CheeseColors) =>
+  (logLevel: LogLevel, colorOverride?: CheeseColors, useTable = false) =>
   (cheeseConfig: CheeseConfig, ...args: any[]) => {
     if (!initialized) {
       warnUninitialized(logLevel);
       return;
     }
     console[logLevel](
-      prepareMsg(logLevel, cheeseConfig, who, colorOverride, ...args)
+      prepareMsg(logLevel, cheeseConfig, who, colorOverride, useTable, ...args)
     );
   };
 
 const logWithAppendedConfig =
-  (logLevel: LogLevel, colorOverride?: CheeseColors) =>
+  (logLevel: LogLevel, colorOverride?: CheeseColors, useTable = false) =>
   (...args: [...any, CheeseConfig]) => {
     if (!initialized) {
       warnUninitialized(logLevel);
@@ -55,7 +62,7 @@ const logWithAppendedConfig =
     }
     args.pop(); // <- remove config so that it doesn't get printed
     console[logLevel](
-      prepareMsg(logLevel, cheeseConfig, who, colorOverride, ...args)
+      prepareMsg(logLevel, cheeseConfig, who, colorOverride, useTable, ...args)
     );
   };
 
@@ -77,6 +84,7 @@ const cheeseLogFunctions = {};
 const colorValues = ["", ...Object.keys(CheeseColors)];
 
 Object.values(LogLevel).forEach((logLevel) => {
+  // add color functions:
   colorValues.forEach((colorValue) => {
     const key = `${logLevel}${capitalizeExtra(colorValue)}`;
     const chosenColor: undefined | CheeseColors =
@@ -91,6 +99,19 @@ Object.values(LogLevel).forEach((logLevel) => {
       chosenColor
     );
   });
+
+  // add table functions:
+  cheeseLogFunctions["table"] = logWithGlobalConfig(logLevel, undefined, true);
+  cheeseLogFunctions["_table"] = logWithPrependedConfig(
+    logLevel,
+    undefined,
+    true
+  );
+  cheeseLogFunctions["table_"] = logWithAppendedConfig(
+    logLevel,
+    undefined,
+    true
+  );
 });
 
 const cheese: CheeseLog = {

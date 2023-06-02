@@ -9,6 +9,9 @@ type LogFnAppended = `${LogLevel}_`;
 type LogFnColored = `${LogLevel}${CheeseColors}`;
 type LogFnColoredPrepended = `_${LogFnColored}`;
 type LogFnColoredAppended = `${LogFnColored}_`;
+type LogFnTable = `${LogLevel}Table`;
+type LogFnTablePrepended = `_${LogFnTable}`;
+type LogFnTableAppended = `${LogFnTable}_`;
 
 export type CheeseLogBase = {
   config: (cheeseConfig: CheeseConfig | ContextDependentCheeseConfig) => void;
@@ -38,11 +41,26 @@ type CheeseLogFnsColoredPrepended = {
 type CheeseLogFnsColoredAppended = {
   [logFn in LogFnColoredAppended]: (...args: [...any, CheeseConfig]) => void;
 };
+type CheeseLogFnsTable = {
+  [logFn in LogFnTable]: (...args: any[]) => void;
+};
+type CheeseLogFnsTablePrepended = {
+  [logFn in LogFnTablePrepended]: (
+    cheeseConfig: CheeseConfig,
+    ...args: any[]
+  ) => void;
+};
+type CheeseLogFnsTableAppended = {
+  [logFn in LogFnTableAppended]: (...args: [...any, CheeseConfig]) => void;
+};
 
 export type CheeseLog = CheeseLogBase &
   CheeseLogFns &
   CheeseLogFnsPrepended &
   CheeseLogFnsAppended &
+  CheeseLogFnsTable &
+  CheeseLogFnsTablePrepended &
+  CheeseLogFnsTableAppended &
   CheeseLogFnsColored &
   CheeseLogFnsColoredPrepended &
   CheeseLogFnsColoredAppended;

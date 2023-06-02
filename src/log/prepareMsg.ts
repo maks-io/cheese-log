@@ -1,9 +1,6 @@
 import dayjs from "dayjs";
-import util from "util";
 import { Who } from "who-am-i-now";
 import { cheeseConfigDefault } from "./cheeseConfigDefault";
-import { getTextColorFn } from "./getTextColorFn";
-import { shortenStringsInObject } from "../helpers/shortenStringsInObject";
 import { LogLevel } from "../types/LogLevel";
 import { CheeseConfig, CheeseConfigEffective } from "../types/CheeseConfig";
 import { CheeseColors } from "../types/CheeseColors";
@@ -15,6 +12,7 @@ export const prepareMsg = (
   usedCheeseConfig: CheeseConfig | ContextDependentCheeseConfig,
   who: Who,
   colorOverridePredefined?: CheeseColors,
+  useTable = false,
   ...args: any[]
 ): string => {
   const millisecondsSince1970 = dayjs().valueOf();
@@ -32,7 +30,7 @@ export const prepareMsg = (
   const resultingCheeseConfigEffective: CheeseConfigEffective = {
     autoColorizeObject: getEffectiveConfigProp("autoColorizeObject"),
     depth: getEffectiveConfigProp("depth"),
-    table: getEffectiveConfigProp("table"),
+    table: useTable ?? getEffectiveConfigProp("table"),
     spaces: getEffectiveConfigProp("spaces"),
     showLogLevel: getEffectiveConfigProp("showLogLevel"),
     showDate: getEffectiveConfigProp("showDate"),
