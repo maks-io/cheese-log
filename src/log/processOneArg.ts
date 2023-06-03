@@ -46,6 +46,7 @@ export const processOneArg = (
     depth,
     compact: true,
   });
+  inspectedObject = inspectedObject.replace(/\\'/g, "'");
 
   if (!escapeWhitespaces) {
     inspectedObject = inspectedObject
