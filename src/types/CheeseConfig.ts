@@ -21,6 +21,7 @@ export interface CheeseConfig {
   colorOverride?: CheeseColors;
   allColorsDisabled?: ContextDependingValue<boolean>;
   escapeWhitespaces?: ContextDependingValue<boolean>;
+  forceNewlines?: ContextDependingValue<boolean>;
   tableOptions?: ContextDependingValue<TableOptions>;
   formatMessage?: FormatMessage;
 }
@@ -40,6 +41,7 @@ export interface CheeseConfigEffective {
   colorOverride: CheeseColors;
   allColorsDisabled: boolean;
   escapeWhitespaces: boolean;
+  forceNewlines: boolean;
   tableOptions: TableOptions;
   formatMessage?: FormatMessage;
 }

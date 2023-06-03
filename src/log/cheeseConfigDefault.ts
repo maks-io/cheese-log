@@ -31,6 +31,7 @@ export const cheeseConfigDefault: CheeseConfig = {
   maxStringLength: 10000,
   colorOverride: undefined,
   escapeWhitespaces: false,
+  forceNewlines: false,
   formatMessage: (
     message: string,
     who: Who,

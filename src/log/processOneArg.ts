@@ -19,7 +19,8 @@ export const processOneArg = (
   colorOverridePredefined: CheeseColors,
   colorOverride: CheeseColors,
   autoColorizeObject: boolean,
-  escapeWhitespaces: boolean
+  escapeWhitespaces: boolean,
+  forceNewlines: boolean
 ): string => {
   const argWithShortenedStrings =
     maxStringLength !== undefined
@@ -126,6 +127,10 @@ export const processOneArg = (
       ? inspectedObject.substring(1, inspectedObject.length - 1)
       : inspectedObject
   );
+
+  if (forceNewlines) {
+    return isFirst ? objectPrepared : "\n" + objectPrepared;
+  }
 
   return (
     ((isObject || isArray) && !isFirst
