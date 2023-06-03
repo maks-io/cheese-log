@@ -12,5 +12,5 @@ export const getStackTrace = () => {
   });
   return s
     .splice(stack[0] == "Error" ? 2 : 1)
-    .filter((l) => !l.includes("cheese-log/"));
+    .filter((l) => !l.includes("cheese-log/") && !l.includes("cheese-log@"));
 };
