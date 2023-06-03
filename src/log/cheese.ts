@@ -101,13 +101,14 @@ Object.values(LogLevel).forEach((logLevel) => {
   });
 
   // add table functions:
-  cheeseLogFunctions["table"] = logWithGlobalConfig(logLevel, undefined, true);
-  cheeseLogFunctions["_table"] = logWithPrependedConfig(
+  const key = `${logLevel}Table`;
+  cheeseLogFunctions[key] = logWithGlobalConfig(logLevel, undefined, true);
+  cheeseLogFunctions[`_${key}`] = logWithPrependedConfig(
     logLevel,
     undefined,
     true
   );
-  cheeseLogFunctions["table_"] = logWithAppendedConfig(
+  cheeseLogFunctions[`${key}_`] = logWithAppendedConfig(
     logLevel,
     undefined,
     true
