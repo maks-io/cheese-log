@@ -21,7 +21,7 @@ export const cheeseConfigDefault: CheeseConfig = {
   },
   depth: 100,
   table: false,
-  spaces: false,
+  spaces: true,
   showLogLevel: true,
   showDate: true,
   showCheeseIcon: true,

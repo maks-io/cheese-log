@@ -120,13 +120,22 @@ export const processOneArg = (
       ? undefined
       : colorOverridePredefined ?? colorOverride
   );
+
+  const objectPrepared = textColorFn(
+    isString
+      ? inspectedObject.substring(1, inspectedObject.length - 1)
+      : inspectedObject
+  );
+
   return (
-    ((isObject || isArray) && !isFirst ? "\n" : isFirst ? "" : " ") +
-    textColorFn(
-      isString
-        ? inspectedObject.substring(1, inspectedObject.length - 1)
-        : inspectedObject
-    ) +
+    ((isObject || isArray) && !isFirst
+      ? "\n"
+      : isFirst
+      ? ""
+      : spaces
+      ? " "
+      : "") +
+    objectPrepared +
     (isLast ? "\n" : "")
   );
 };

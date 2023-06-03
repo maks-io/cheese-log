@@ -10,6 +10,8 @@ import {
 import { processOneArg } from "./processOneArg";
 import { TableOptions } from "../types/TableOptions";
 
+const joiner = "";
+
 export const turnArgsIntoReadymadeString = (
   args: any[],
   maxStringLength: number,
@@ -27,8 +29,6 @@ export const turnArgsIntoReadymadeString = (
   if (args.length === 0) {
     return "(logging empty message)";
   }
-
-  const joiner = spaces ? " " : "";
 
   return args
     .map((arg, index) => {
