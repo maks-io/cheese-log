@@ -41,6 +41,7 @@ export const prepareMsg = (
     maxStringLength: getEffectiveConfigProp("maxStringLength"),
     colorOverride: getEffectiveConfigProp("colorOverride"),
     allColorsDisabled: getEffectiveConfigProp("allColorsDisabled"),
+    escapeWhitespaces: getEffectiveConfigProp("escapeWhitespaces"),
     tableOptions: getEffectiveConfigProp("tableOptions"),
     formatMessage: resultingCheeseConfig.formatMessage,
   };
@@ -60,6 +61,7 @@ export const prepareMsg = (
     colorOverride,
     showOrigin,
     allColorsDisabled,
+    escapeWhitespaces,
     tableOptions,
   } = resultingCheeseConfigEffective;
 
@@ -75,6 +77,7 @@ export const prepareMsg = (
       colorOverridePredefined,
       colorOverride,
       autoColorizeObject,
+      escapeWhitespaces,
       tableOptions
     ),
     who,

@@ -21,6 +21,7 @@ export const turnArgsIntoReadymadeString = (
   colorOverridePredefined: CheeseColors,
   colorOverride: CheeseColors,
   autoColorizeObject: boolean,
+  escapeWhitespaces: boolean,
   tableOptions: TableOptions
 ): string => {
   if (args.length === 0) {
@@ -61,7 +62,8 @@ export const turnArgsIntoReadymadeString = (
               allColorsDisabled,
               colorOverridePredefined,
               colorOverride,
-              autoColorizeObject
+              autoColorizeObject,
+              escapeWhitespaces
             );
             return tableEntryPrepared[tableEntryKey];
           });
@@ -87,7 +89,8 @@ export const turnArgsIntoReadymadeString = (
         allColorsDisabled,
         colorOverridePredefined,
         colorOverride,
-        autoColorizeObject
+        autoColorizeObject,
+        escapeWhitespaces
       );
     })
     .join(joiner);

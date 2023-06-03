@@ -20,6 +20,7 @@ export interface CheeseConfig {
   showCheeseIcon?: ContextDependingValue<boolean>;
   colorOverride?: CheeseColors;
   allColorsDisabled?: ContextDependingValue<boolean>;
+  escapeWhitespaces?: ContextDependingValue<boolean>;
   tableOptions?: ContextDependingValue<TableOptions>;
   formatMessage?: FormatMessage;
 }
@@ -38,6 +39,7 @@ export interface CheeseConfigEffective {
   showCheeseIcon: boolean;
   colorOverride: CheeseColors;
   allColorsDisabled: boolean;
+  escapeWhitespaces: boolean;
   tableOptions: TableOptions;
   formatMessage?: FormatMessage;
 }
@@ -56,6 +58,7 @@ export const cheeseConfigAllowedKeys = [
   "showCheeseIcon",
   "colorOverride",
   "allColorsDisabled",
+  "escapeWhitespaces",
   "tableOptions",
   "formatMessage",
 ];

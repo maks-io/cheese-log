@@ -18,7 +18,8 @@ export const processOneArg = (
   allColorsDisabled: boolean,
   colorOverridePredefined: CheeseColors,
   colorOverride: CheeseColors,
-  autoColorizeObject: boolean
+  autoColorizeObject: boolean,
+  escapeWhitespaces: boolean
 ): string => {
   const argWithShortenedStrings =
     maxStringLength !== undefined
@@ -44,6 +45,14 @@ export const processOneArg = (
     depth,
     compact: true,
   });
+
+  if (!escapeWhitespaces) {
+    inspectedObject = inspectedObject
+      .replace(/\\n/g, "\n")
+      .replace(/\\f/g, "\f")
+      .replace(/\\r/g, "\r")
+      .replace(/\\t/g, "\t");
+  }
 
   const highlightingOpeningChar = allColorsDisabled ? "[" : "";
   const highlightingClosingChar = allColorsDisabled ? "]" : "";
