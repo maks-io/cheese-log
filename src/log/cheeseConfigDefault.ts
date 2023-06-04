@@ -50,7 +50,9 @@ export const cheeseConfigDefault: CheeseConfig = {
     colorOverride: string
   ) => {
     const cheeseIconPrepared = showCheeseIcon ? CHEESE_ICON + " " : "";
-    const logLevelPrepared = showLogLevel ? "[" + logLevel + "] " : "";
+    const logLevelPrepared = showLogLevel
+      ? "[" + logLevel + "]" + (showDate ? " " : "")
+      : "";
     const datePrepared = showDate
       ? dayjs(millisecondsSince1970, "x").format(dateFormat)
       : "";
