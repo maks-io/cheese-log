@@ -15,6 +15,8 @@ import { CheeseConfig } from "../types/CheeseConfig";
 import { LogLevel } from "../types/LogLevel";
 
 export const cheeseConfigDefault: CheeseConfig = {
+  reportInitialization: true,
+  reportGlobalConfigChange: true,
   autoColorizeObject: true,
   allColorsDisabled: (who: Who) => {
     return who.browserName === "Firefox" || who.browserName === "Safari";

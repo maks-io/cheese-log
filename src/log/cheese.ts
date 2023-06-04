@@ -75,10 +75,19 @@ const cheeseLogBase: CheeseLogBase = {
         ? cheeseConfig
         : { ...cheeseConfigDefault, ...cheeseConfig };
 
+    const globalCheeseConfigEffective =
+      typeof globalCheeseConfig === "function"
+        ? globalCheeseConfig(who, LogLevel.log) // logLevel doesn't matter for the reporting checks
+        : globalCheeseConfig;
+
     if (!initialized) {
-      reportInitialization(who);
+      if (globalCheeseConfigEffective.reportInitialization) {
+        reportInitialization(who);
+      }
     } else {
-      reportGlobalConfigChange();
+      if (globalCheeseConfigEffective.reportGlobalConfigChange) {
+        reportGlobalConfigChange();
+      }
     }
     initialized = true;
   },

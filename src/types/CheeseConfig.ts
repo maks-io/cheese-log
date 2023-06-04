@@ -8,6 +8,8 @@ import { LogLevelEnabledFn } from "./LogLevelEnabledFn";
 type ContextDependingValue<T> = T | ((who: Who, logLevel: LogLevel) => T);
 
 export interface CheeseConfig {
+  reportInitialization?: boolean;
+  reportGlobalConfigChange?: boolean;
   maxStringLength?: ContextDependingValue<number>;
   maxArrayLength?: ContextDependingValue<number>;
   spaces?: ContextDependingValue<boolean>;
@@ -50,6 +52,8 @@ export interface CheeseConfigEffective {
 }
 
 export const cheeseConfigAllowedKeys = [
+  "reportInitialization",
+  "reportGlobalConfigChange",
   "maxStringLength",
   "maxArrayLength",
   "spaces",
