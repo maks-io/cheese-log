@@ -2,7 +2,7 @@ import { Who } from "who-am-i-now";
 import { LogLevel } from "./LogLevel";
 import { CheeseColors } from "./CheeseColors";
 
-export type FormatMessage = (
+export type FormatMessageFn = (
   message: string,
   who: Who,
   showLogLevel: boolean,

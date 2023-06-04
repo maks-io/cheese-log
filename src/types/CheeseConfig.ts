@@ -1,8 +1,9 @@
 import { Who } from "who-am-i-now";
 import { LogLevel } from "./LogLevel";
 import { CheeseColors } from "./CheeseColors";
-import { FormatMessage } from "./FormatMessage";
+import { FormatMessageFn } from "./FormatMessageFn";
 import { TableOptions } from "./TableOptions";
+import { LogLevelEnabledFn } from "./LogLevelEnabledFn";
 
 type ContextDependingValue<T> = T | ((who: Who, logLevel: LogLevel) => T);
 
@@ -23,7 +24,8 @@ export interface CheeseConfig {
   escapeWhitespaces?: ContextDependingValue<boolean>;
   forceNewlines?: ContextDependingValue<boolean>;
   tableOptions?: ContextDependingValue<TableOptions>;
-  formatMessage?: FormatMessage;
+  formatMessage?: FormatMessageFn;
+  logLevelEnabled?: LogLevelEnabledFn;
 }
 
 export interface CheeseConfigEffective {
@@ -43,7 +45,8 @@ export interface CheeseConfigEffective {
   escapeWhitespaces: boolean;
   forceNewlines: boolean;
   tableOptions: TableOptions;
-  formatMessage?: FormatMessage;
+  formatMessage?: FormatMessageFn;
+  logLevelEnabled?: LogLevelEnabledFn;
 }
 
 export const cheeseConfigAllowedKeys = [
@@ -63,4 +66,5 @@ export const cheeseConfigAllowedKeys = [
   "escapeWhitespaces",
   "tableOptions",
   "formatMessage",
+  "logLevelEnabled",
 ];

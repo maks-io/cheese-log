@@ -32,6 +32,7 @@ export const cheeseConfigDefault: CheeseConfig = {
   colorOverride: undefined,
   escapeWhitespaces: false,
   forceNewlines: false,
+  logLevelEnabled: () => process.env.NODE_ENV !== "production",
   formatMessage: (
     message: string,
     who: Who,

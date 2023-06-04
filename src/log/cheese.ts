@@ -5,6 +5,8 @@ import { warnUninitialized } from "../helpers/warnUninitialized";
 import { cheeseConfigDefault } from "./cheeseConfigDefault";
 import { prepareMsg } from "./prepareMsg";
 import { reportInitialization } from "../helpers/reportInitialization";
+import { reportGlobalConfigChange } from "../helpers/reportGlobalConfigChange";
+import { nullFn } from "./nullFn";
 import { extractCheeseConfigFromArgs } from "./extractCheeseConfigFromArgs";
 import { CheeseColors } from "../types/CheeseColors";
 import { capitalizeExtra } from "capitalize-lightweight";
@@ -73,9 +75,12 @@ const cheeseLogBase: CheeseLogBase = {
         ? cheeseConfig
         : { ...cheeseConfigDefault, ...cheeseConfig };
 
+    if (!initialized) {
+      reportInitialization(who);
+    } else {
+      reportGlobalConfigChange();
+    }
     initialized = true;
-
-    reportInitialization(who);
   },
 };
 
@@ -84,35 +89,41 @@ const cheeseLogFunctions = {};
 const colorValues = ["", ...Object.keys(CheeseColors)];
 
 Object.values(LogLevel).forEach((logLevel) => {
+  const globalCheeseConfigEffective =
+    typeof globalCheeseConfig === "function"
+      ? globalCheeseConfig(who, logLevel)
+      : globalCheeseConfig;
+
+  const logLevelEnabled: boolean =
+    globalCheeseConfigEffective.logLevelEnabled(logLevel);
+
   // add color functions:
   colorValues.forEach((colorValue) => {
     const key = `${logLevel}${capitalizeExtra(colorValue)}`;
     const chosenColor: undefined | CheeseColors =
       colorValue === "" ? undefined : (colorValue as CheeseColors);
-    cheeseLogFunctions[key] = logWithGlobalConfig(logLevel, chosenColor);
-    cheeseLogFunctions[`_${key}`] = logWithPrependedConfig(
-      logLevel,
-      chosenColor
-    );
-    cheeseLogFunctions[`${key}_`] = logWithAppendedConfig(
-      logLevel,
-      chosenColor
-    );
+    cheeseLogFunctions[key] = !logLevelEnabled
+      ? nullFn
+      : logWithGlobalConfig(logLevel, chosenColor);
+    cheeseLogFunctions[`_${key}`] = !logLevelEnabled
+      ? nullFn
+      : logWithPrependedConfig(logLevel, chosenColor);
+    cheeseLogFunctions[`${key}_`] = !logLevelEnabled
+      ? nullFn
+      : logWithAppendedConfig(logLevel, chosenColor);
   });
 
   // add table functions:
   const key = `${logLevel}Table`;
-  cheeseLogFunctions[key] = logWithGlobalConfig(logLevel, undefined, true);
-  cheeseLogFunctions[`_${key}`] = logWithPrependedConfig(
-    logLevel,
-    undefined,
-    true
-  );
-  cheeseLogFunctions[`${key}_`] = logWithAppendedConfig(
-    logLevel,
-    undefined,
-    true
-  );
+  cheeseLogFunctions[key] = !logLevelEnabled
+    ? nullFn
+    : logWithGlobalConfig(logLevel, undefined, true);
+  cheeseLogFunctions[`_${key}`] = !logLevelEnabled
+    ? nullFn
+    : logWithPrependedConfig(logLevel, undefined, true);
+  cheeseLogFunctions[`${key}_`] = !logLevelEnabled
+    ? nullFn
+    : logWithAppendedConfig(logLevel, undefined, true);
 });
 
 const cheese: CheeseLog = {
