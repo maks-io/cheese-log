@@ -8,67 +8,67 @@ import { LogLevelEnabledFn } from "./LogLevelEnabledFn";
 type ContextDependingValue<T> = T | ((who: Who, logLevel: LogLevel) => T);
 
 export interface CheeseConfig {
-  reportInitialization?: boolean;
-  reportGlobalConfigChange?: boolean;
-  maxStringLength?: ContextDependingValue<number>;
-  maxArrayLength?: ContextDependingValue<number>;
-  spaces?: ContextDependingValue<boolean>;
-  depth?: ContextDependingValue<number>;
-  autoColorizeObject?: ContextDependingValue<boolean>;
-  table?: ContextDependingValue<boolean>;
-  dateFormat?: ContextDependingValue<string>;
-  showOrigin?: ContextDependingValue<boolean>;
-  showDate?: ContextDependingValue<boolean>;
-  showLogLevel?: ContextDependingValue<boolean>;
-  showCheeseIcon?: ContextDependingValue<boolean>;
-  colorOverride?: CheeseColors;
   allColorsDisabled?: ContextDependingValue<boolean>;
+  autoColorizeObject?: ContextDependingValue<boolean>;
+  colorOverride?: CheeseColors;
+  dateFormat?: ContextDependingValue<string>;
+  depth?: ContextDependingValue<number>;
   escapeWhitespaces?: ContextDependingValue<boolean>;
   forceNewlines?: ContextDependingValue<boolean>;
-  tableOptions?: ContextDependingValue<TableOptions>;
   formatMessage?: FormatMessageFn;
   logLevelEnabled?: LogLevelEnabledFn;
+  maxArrayLength?: ContextDependingValue<number>;
+  maxStringLength?: ContextDependingValue<number>;
+  reportGlobalConfigChange?: boolean;
+  reportInitialization?: boolean;
+  showCheeseIcon?: ContextDependingValue<boolean>;
+  showDate?: ContextDependingValue<boolean>;
+  showLogLevel?: ContextDependingValue<boolean>;
+  showOrigin?: ContextDependingValue<boolean>;
+  spaces?: ContextDependingValue<boolean>;
+  table?: ContextDependingValue<boolean>;
+  tableOptions?: ContextDependingValue<TableOptions>;
 }
 
 export interface CheeseConfigEffective {
-  maxStringLength: number;
-  maxArrayLength: number;
-  spaces: boolean;
-  depth: number;
-  autoColorizeObject: boolean;
-  table: boolean;
-  dateFormat: string;
-  showDate: boolean;
-  showOrigin: boolean;
-  showLogLevel: boolean;
-  showCheeseIcon: boolean;
-  colorOverride: CheeseColors;
   allColorsDisabled: boolean;
+  autoColorizeObject: boolean;
+  colorOverride: CheeseColors;
+  dateFormat: string;
+  depth: number;
   escapeWhitespaces: boolean;
   forceNewlines: boolean;
-  tableOptions: TableOptions;
   formatMessage?: FormatMessageFn;
   logLevelEnabled?: LogLevelEnabledFn;
+  maxArrayLength: number;
+  maxStringLength: number;
+  showCheeseIcon: boolean;
+  showDate: boolean;
+  showLogLevel: boolean;
+  showOrigin: boolean;
+  spaces: boolean;
+  table: boolean;
+  tableOptions: TableOptions;
 }
 
 export const cheeseConfigAllowedKeys = [
-  "reportInitialization",
-  "reportGlobalConfigChange",
-  "maxStringLength",
-  "maxArrayLength",
-  "spaces",
-  "depth",
-  "autoColorizeObject",
-  "table",
-  "dateFormat",
-  "showDate",
-  "showOrigin",
-  "showLogLevel",
-  "showCheeseIcon",
-  "colorOverride",
   "allColorsDisabled",
+  "autoColorizeObject",
+  "colorOverride",
+  "dateFormat",
+  "depth",
   "escapeWhitespaces",
-  "tableOptions",
   "formatMessage",
   "logLevelEnabled",
+  "maxArrayLength",
+  "maxStringLength",
+  "reportGlobalConfigChange",
+  "reportInitialization",
+  "showCheeseIcon",
+  "showDate",
+  "showLogLevel",
+  "showOrigin",
+  "spaces",
+  "table",
+  "tableOptions",
 ];

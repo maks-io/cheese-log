@@ -16,6 +16,29 @@ A colorful logger with browser-/environment-dependent formatting possibilities.
 
 This logger is not intended to be highly performant, if you are looking for something like that, look somewhere else. This library aims to provide a flexible, versatile and simple logger, to make debugging etc. a slight bit easier.
 
+## README Overview
+
+1. [Install](#install)
+2. [Usage examples](#usage-examples)
+   1. [Simple usage](#example-simple-usage)
+   2. [Explore some initial config's props](#example-explore-some-initial-configs-props)
+   3. [Override config for individual log messages](#example-override-config-for-individual-log-messages)
+   4. [Use built-in color functions](#example-use-built-in-color-functions)
+   5. [Use context dependent config instead of a static one](#example-use-context-dependent-config-instead-of-a-static-one)
+   6. [Use a custom formatMessage function](#example-use-a-custom-formatmessage-function)
+   7. [Auto-colorized objects](#example-auto-colorized-objects)
+   8. [Shorten strings](#example-shorten-strings)
+   9. [Shorten arrays](#example-shorten-arrays)
+   10. [Limit object depth](#example-limit-object-depth)
+   11. [Print tables](#example-print-tables)
+3. [Config / options](#config--options)
+4. [Available functions](#available-functions)
+   1. [Config function](#config-function)
+   2. [Basic logging functions](#basic-logging-functions)
+   3. [Built-in table functions](#built-in-table-functions)
+   4. [Built-in color functions](#built-in-color-functions)
+5. [Open tasks / ideas](#open-tasks--ideas)
+
 ## Install
 
 ```
@@ -217,7 +240,7 @@ If you want to change the format of logged messages, you can do it by passing a 
 The function shown below is the default, used by this library. It can serve as a template when creating your own:
 
 ```typescript
-formatMessage: (
+const formatMessageDefault: FormatMessageFn = (
   message: string,
   who: Who,
   showLogLevel: boolean,
@@ -232,7 +255,9 @@ formatMessage: (
   colorOverride: string
 ) => {
   const cheeseIconPrepared = showCheeseIcon ? CHEESE_ICON + " " : "";
-  const logLevelPrepared = showLogLevel ? "[" + logLevel + "] " : "";
+  const logLevelPrepared = showLogLevel
+    ? "[" + logLevel + "]" + (showDate ? " " : "")
+    : "";
   const datePrepared = showDate
     ? dayjs(millisecondsSince1970, "x").format(dateFormat)
     : "";
@@ -260,6 +285,30 @@ formatMessage: (
 ```
 
 Check out the live demo at [https://stackblitz.com/edit/cheese-log-custom-msg-format-function](https://stackblitz.com/edit/cheese-log-custom-msg-format-function?file=index.ts).
+
+### Example: Auto-colorized objects
+
+When logging (nested) objects, the library tries to automatically colorize individual props, according to their type (string would have different colors, than numbers etc.).
+See the following example:
+
+```typescript
+import cheese, { CheeseConfig } from "cheese-log";
+
+cheese.config({});
+
+cheese.log({
+  this: {
+    is: { someNested: "object" },
+    itHasNumbers: 112358,
+    andArrays: ["hello", "world"],
+  },
+});
+```
+
+The result:
+
+<img alt="cheeseAutoColorize" height="75" src="./documentation/media/cheeseAutoColorize.png" />
+
 
 ### Example: Shorten strings
 
@@ -322,7 +371,7 @@ cheese.logGreen({
 
 <img alt="cheeseContextShortenStringsInObjectZero" src="./documentation/media/cheeseContextShortenStringsInObjectZero.png" />
 
-Even when using an uncolored function (which leads to auto-coloring an object), the truncating info in the output will always be highlighted green. The following example logs 2 arguments, a plain string and a nested object -> the latter will be auto-colored, while the plain string will not be auto-colored - see output:
+Even when using an uncolored function (which leads to [auto-coloring an object](#example-auto-colorized-objects)), the truncating info in the output will always be highlighted green. The following example logs 2 arguments, a plain string and a nested object -> the latter will be auto-colored, while the plain string will not be auto-colored - see output:
 
 ```typescript
 cheese.log("a first log argument, which is simply a plain string", {
@@ -415,14 +464,16 @@ The corresponding output would be:
 
 <img alt="cheeseTableSimple" src="./documentation/media/cheeseTableSimple.png" />
 
-Similarly to the [built-in color functions](#example-use-built-in-color-functions) you can also use **built-in table functions**, so you don't have to pass the `table: true` prop to the config:
+Similarly to the [built-in color functions](#example-use-built-in-color-functions) you can also use **built-in table functions**, so you don't have to pass the `table: true` prop to the config. Another advantage is that it allows you to define the necessary table data structure via typescript, see the following example:
 
 ```typescript
-cheese.logTable(...);
-cheese._logTable(...);
-cheese.logTable_(...);
-cheese.infoTable(...);
-cheese._infoTable(...);
+type TableData = { colum1: string, column2: string, someNumberColumn: number };
+
+cheese.logTable<TableData>(...);
+cheese._logTable<TableData>(...);
+cheese.logTable_<TableData>(...);
+cheese.infoTable<TableData>(...);
+cheese._infoTable<TableData>(...);
 // ... etc. -> all combinations of log-levels plus 'Table' exist!
 ```
 
@@ -456,9 +507,100 @@ Check out the live demo at [https://stackblitz.com/edit/cheese-log-print-tables]
 
 ## Config / options
 
-Coming soon.
+While the section above shows various example, the following table aims to be a complete list of available options.
 
-## Open Tasks / Ideas
+For now, every single prop is optional, not providing it will result in some default value being used - as shown in the table:
+
+| name                       | type                                                                                                                                                                                                                                                                                         | default value                                                                                                                                | description                                                                                                                                                                                                                                                                                                                           |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `allColorsDisabled`        | `boolean \| (who: Who, logLevel: LogLevel) => boolean`                                                                                                                                                                                                                                       | `(who: Who) => who.browserName === "Firefox" \|\| who.browserName === "Safari"`                                                              | If this is set to `true` no ansi colors are being used at all. This is helpful, if your environment is not supporting color codes, for instace. The default value is a function, checking if the logger is running on `Firefox` or `Safari`, in these cases returning `false`, since these browser don't natively support color codes. |
+| `autoColorizeObject`       | `boolean \| (who: Who, logLevel: LogLevel) => boolean`                                                                                                                                                                                                                                       | `true`                                                                                                                                       | Logged objects would be automatically colored, as described [here](#example-auto-colorized-objects). You can turn this feature off.                                                                                                                                                                                                   |
+| `colorOverride`            | `CheeseColors`                                                                                                                                                                                                                                                                               | `undefined`                                                                                                                                  | This allows you to colorize entire messages. Using this as part of the global config might be a bit useless, you can however highlight individual messages when used on individual log statements.                                                                                                                                    |
+| `dateFormat`               | `string \| (who: Who, logLevel: LogLevel) => string`                                                                                                                                                                                                                                         | `"YYYY-MM-DD, HH:mm:ss.SSS"`                                                                                                                 | The date format used for the log statements.                                                                                                                                                                                                                                                                                          |
+| `depth`                    | `number \| (who: Who, logLevel: LogLevel) => number`                                                                                                                                                                                                                                         | `100`                                                                                                                                        | The depth of logged objects can be limited, as described [here](#example-limit-object-depth).                                                                                                                                                                                                                                         |
+| `escapeWhitespaces`        | `boolean \| (who: Who, logLevel: LogLevel) => boolean`                                                                                                                                                                                                                                       | `false`                                                                                                                                      | If set to `true`, whitespace characters (to be more precise `\t`, `\n`, `\r` and `\f`) will be escaped, when logging. Note, this does not affect classical spaces `" "` though.                                                                                                                                                       |
+| `forceNewlines`            | `boolean \| (who: Who, logLevel: LogLevel) => boolean`                                                                                                                                                                                                                                       | `false`                                                                                                                                      | If set to `true` every single logging argument will appear on a new line. If set to `false`, only arrays and objects appear on newlines, successive strings for instance would be printed on the same line though.                                                                                                                    |
+| `formatMessage`            | `(message: string, who: Who, showLogLevel: boolean, logLevel: LogLevel, millisecondsSince1970: number, showDate: boolean, dateFormat: string, showOrigin: boolean, autoColorizeObject: boolean, showCheeseIcon: boolean, allColorsDisabled: boolean, colorOverride: CheeseColors) => string` | Check [the corresponding code](https://github.com/maks-io/cheese-log/blob/main/src/log/formatMessageDefault.ts) to see the default function. | This function is one of the centerpieces and determines how logged messages appear. Examples can be seen [here](#example-use-a-custom-formatmessage-function).                                                                                                                                                                        |
+| `logLevelEnabled`          | `(logLevel: LogLevel) => boolean`                                                                                                                                                                                                                                                            | `(logLevel: LogLevel) => process.env.NODE_ENV !== "production"`                                                                              | This function can be used to disable certain log messages in certain scenarios, for instance on production environments.                                                                                                                                                                                                              |
+| `maxArrayLength`           | `number \| (who: Who, logLevel: LogLevel) => number`                                                                                                                                                                                                                                         | `10000`                                                                                                                                      | Logging long arrays would truncate them automatically via this option. [See more details](#example-shorten-arrays).                                                                                                                                                                                                                   |
+| `maxStringLength`          | `number \| (who: Who, logLevel: LogLevel) => number`                                                                                                                                                                                                                                         | `10000`                                                                                                                                      | Logging long strings would truncate them automatically via this option. [See more details](#example-shorten-strings).                                                                                                                                                                                                                 |
+| `reportGlobalConfigChange` | `boolean`                                                                                                                                                                                                                                                                                    | `true`                                                                                                                                       | Changing the global config after initialization might be a mistake, therefore a warning will be presented. This warning can be disabled via this option.                                                                                                                                                                              |
+| `reportInitialization`     | `boolean`                                                                                                                                                                                                                                                                                    | `true`                                                                                                                                       | Successfully initializing the logger via `cheese.config()` will print some corresponding info messages. These info messages can be disabled via this option.                                                                                                                                                                          |
+| `showCheeseIcon`           | `boolean \| (who: Who, logLevel: LogLevel) => boolean`                                                                                                                                                                                                                                       | `true`                                                                                                                                       | Decides whether log messages show the 🧀 icon or not.                                                                                                                                                                                                                                                                                 |
+| `showDate`                 | `boolean \| (who: Who, logLevel: LogLevel) => boolean`                                                                                                                                                                                                                                       | `true`                                                                                                                                       | Decides whether log messages show date / timestamp or not.                                                                                                                                                                                                                                                                            |
+| `showLogLevel`             | `boolean \| (who: Who, logLevel: LogLevel) => boolean`                                                                                                                                                                                                                                       | `true`                                                                                                                                       | Decides whether log messages show the logLevel or not.                                                                                                                                                                                                                                                                                |
+| `showOrigin`               | `boolean \| (who: Who, logLevel: LogLevel) => boolean`                                                                                                                                                                                                                                       | `false`                                                                                                                                      | Decides whether log messages show the (stacktrace) origin or not.                                                                                                                                                                                                                                                                     |
+| `spaces`                   | `boolean \| (who: Who, logLevel: LogLevel) => boolean`                                                                                                                                                                                                                                       | `true`                                                                                                                                       | Decides if there should be a space `" "` between individual log arguments or not. This only concerns args that would be printed on the same line.                                                                                                                                                                                     |
+| `table`                    | `boolean \| (who: Who, logLevel: LogLevel) => boolean`                                                                                                                                                                                                                                       | `false`                                                                                                                                      | Via this option you can print messages in a "table format". Details can be seen [here](#example-print-tables).                                                                                                                                                                                                                        |
+| `tableOptions`             | `TableOptions \| (who: Who, logLevel: LogLevel) => TableOptions`                                                                                                                                                                                                                             | `undefined`                                                                                                                                  | Via this option you can control some formatting details for the table printing. The following options are allowed: `outerBorder: string`, `innerBorder: string`, `rowSeparator: string` and `headerSeparator: string`.                                                                                                                |
+
+## Available functions
+
+### Config function
+
+`config(cheeseConfig: CheeseConfig | ContextDependentCheeseConfig)`
+
+### Basic logging functions
+
+- `log(...args: any[])`
+- `info(...args: any[])`
+- `debug(...args: any[])`
+- `warn(...args: any[])`
+- `error(...args: any[])`
+- `_log(cheeseConfig: CheeseConfig, ...args: any[])`
+- `_info(cheeseConfig: CheeseConfig, ...args: any[])`
+- `_debug(cheeseConfig: CheeseConfig, ...args: any[])`
+- `_warn(cheeseConfig: CheeseConfig, ...args: any[])`
+- `_error(cheeseConfig: CheeseConfig, ...args: any[])`
+- `log_(...args: any[], cheeseConfig: CheeseConfig)`
+- `info_(...args: any[], cheeseConfig: CheeseConfig)`
+- `debug_(...args: any[], cheeseConfig: CheeseConfig)`
+- `warn_(...args: any[], cheeseConfig: CheeseConfig)`
+- `error_(...args: any[], cheeseConfig: CheeseConfig)`
+
+### Built-in table functions
+
+- `logTable<T>(...args: T[])`
+- `infoTable<T>(...args: T[])`
+- `debugTable<T>(...args: T[])`
+- `warnTable<T>(...args: T[])`
+- `errorTable<T>(...args: T[])`
+- `_logTable<T>(cheeseConfig: CheeseConfig, ...args: T[])`
+- `_infoTable<T>(cheeseConfig: CheeseConfig, ...args: T[])`
+- `_debugTable<T>(cheeseConfig: CheeseConfig, ...args: T[])`
+- `_warnTable<T>(cheeseConfig: CheeseConfig, ...args: T[])`
+- `_errorTable<T>(cheeseConfig: CheeseConfig, ...args: T[])`
+- `logTable_<T>(...args: T[], cheeseConfig: CheeseConfig)`
+- `infoTable_<T>(...args: T[], cheeseConfig: CheeseConfig)`
+- `debugTable_<T>(...args: T[], cheeseConfig: CheeseConfig)`
+- `warnTable_<T>(...args: T[], cheeseConfig: CheeseConfig)`
+- `errorTable_<T>(...args: T[], cheeseConfig: CheeseConfig)`
+
+^ providing `<T>` is optional and allows you to define the required data structure as needed to avoid bugs. After all every object in the provided array(s) need to have the same props.
+
+### Built-in color functions
+
+- `logBlack(...args: any[])`
+- `infoBlack(...args: any[])`
+- `debugBlack(...args: any[])`
+- `warnBlack(...args: any[])`
+- `errorBlack(...args: any[])`
+- `_logBlack(cheeseConfig: CheeseConfig, ...args: any[])`
+- `_infoBlack(cheeseConfig: CheeseConfig, ...args: any[])`
+- `_debugBlack(cheeseConfig: CheeseConfig, ...args: any[])`
+- `_warnBlack(cheeseConfig: CheeseConfig, ...args: any[])`
+- `_errorBlack(cheeseConfig: CheeseConfig, ...args: any[])`
+- `logBlack_(...args: any[], cheeseConfig: CheeseConfig)`
+- `infoBlack_(...args: any[], cheeseConfig: CheeseConfig)`
+- `debugBlack_(...args: any[], cheeseConfig: CheeseConfig)`
+- `warnBlack_(...args: any[], cheeseConfig: CheeseConfig)`
+- `errorBlack_(...args: any[], cheeseConfig: CheeseConfig)`
+- `logWhite(...args: any[])`
+- etc.
+
+^ this works with the following colors: `Black`, `White`, `Gray`, `Lightgray`, `Blue`, `Lightblue`, `Cyan`, `Lightcyan`, `Red`, `Lightred`, `Green`, `Lightgreen`, `Yellow`, `Lightyellow`, `Magenta`, `Lightmagenta`
+
+## Open tasks / ideas
 
 - add unit tests
 - grouping functionalities
