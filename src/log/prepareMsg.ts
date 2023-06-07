@@ -30,7 +30,7 @@ export const prepareMsg = (
   const resultingCheeseConfigEffective: CheeseConfigEffective = {
     autoColorizeObject: getEffectiveConfigProp("autoColorizeObject"),
     depth: getEffectiveConfigProp("depth"),
-    table: useTable ?? getEffectiveConfigProp("table"),
+    table: useTable || getEffectiveConfigProp("table"),
     spaces: getEffectiveConfigProp("spaces"),
     showLogLevel: getEffectiveConfigProp("showLogLevel"),
     showDate: getEffectiveConfigProp("showDate"),
