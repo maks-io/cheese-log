@@ -10,6 +10,7 @@ export const cheeseConfigDefault: CheeseConfig = {
     who.browserName === "Firefox" || who.browserName === "Safari",
   depth: 100,
   table: false,
+  tableOptions: { headerSeparator: "=", rowSeparator: "-" },
   spaces: true,
   showLogLevel: true,
   showDate: true,
