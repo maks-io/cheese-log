@@ -1,6 +1,5 @@
 import dayjs from "dayjs";
 import { Who } from "who-am-i-now";
-import { cheeseConfigDefault } from "./cheeseConfigDefault";
 import { LogLevel } from "../types/LogLevel";
 import { CheeseConfig, CheeseConfigEffective } from "../types/CheeseConfig";
 import { CheeseColors } from "../types/CheeseColors";
@@ -9,7 +8,8 @@ import { turnArgsIntoReadymadeString } from "./turnArgsIntoReadymadeString";
 
 export const prepareMsg = (
   logLevel: LogLevel,
-  usedCheeseConfig: CheeseConfig | ContextDependentCheeseConfig,
+  globalCheeseConfig: CheeseConfig | ContextDependentCheeseConfig,
+  configOverride: CheeseConfig | ContextDependentCheeseConfig,
   who: Who,
   colorOverridePredefined?: CheeseColors,
   useTable = false,
@@ -18,9 +18,9 @@ export const prepareMsg = (
   const millisecondsSince1970 = dayjs().valueOf();
 
   const resultingCheeseConfig: CheeseConfig =
-    typeof usedCheeseConfig === "function"
-      ? { ...cheeseConfigDefault, ...usedCheeseConfig(who, logLevel) }
-      : { ...cheeseConfigDefault, ...usedCheeseConfig };
+    typeof configOverride === "function"
+      ? { ...globalCheeseConfig, ...configOverride(who, logLevel) }
+      : { ...globalCheeseConfig, ...configOverride };
 
   const getEffectiveConfigProp = (propName: string) =>
     typeof resultingCheeseConfig[propName] === "function"

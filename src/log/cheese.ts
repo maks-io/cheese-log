@@ -70,6 +70,7 @@ const logWithGlobalConfig =
       prepareMsg(
         logLevel,
         globalCheeseConfig,
+        {},
         who,
         colorOverride,
         useTable,
@@ -86,7 +87,15 @@ const logWithPrependedConfig =
       return;
     }
     console[logLevel](
-      prepareMsg(logLevel, cheeseConfig, who, colorOverride, useTable, ...args)
+      prepareMsg(
+        logLevel,
+        globalCheeseConfig,
+        cheeseConfig,
+        who,
+        colorOverride,
+        useTable,
+        ...args
+      )
     );
   };
 
@@ -104,7 +113,15 @@ const logWithAppendedConfig =
     }
     args.pop(); // <- remove config so that it doesn't get printed
     console[logLevel](
-      prepareMsg(logLevel, cheeseConfig, who, colorOverride, useTable, ...args)
+      prepareMsg(
+        logLevel,
+        globalCheeseConfig,
+        cheeseConfig,
+        who,
+        colorOverride,
+        useTable,
+        ...args
+      )
     );
   };
 
