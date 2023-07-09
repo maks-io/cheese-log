@@ -1,3 +1,9 @@
+#### 1.0.6 (2023-07-09)
+
+##### Bug Fixes
+
+*  add missing default config prop spreading ([8dc16918](https://github.com/maks-io/cheese-log/commit/8dc16918ef28e5102a897bd459f4bbfc22355496))
+
 #### 1.0.5 (2023-07-09)
 
 ##### New Features
