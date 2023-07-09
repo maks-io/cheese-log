@@ -17,9 +17,8 @@ export const shortenStringsInObject = (
             value.length - maxLength
           )}`;
 
-  const isString = typeof objectToModify === "string";
   let c;
-  if (isString) {
+  if (typeof objectToModify !== "object") {
     c = objectToModify;
   } else {
     c = Array.isArray(objectToModify) ? [] : {};
