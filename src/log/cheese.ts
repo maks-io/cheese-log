@@ -1,5 +1,5 @@
 import WhoAmINow, { Who } from "who-am-i-now";
-import { CheeseConfig } from "../types/CheeseConfig";
+import { CheeseConfig, CheeseConfigEffective } from "../types/CheeseConfig";
 import { LogLevel } from "../types/LogLevel";
 import { warnUninitialized } from "../helpers/warnUninitialized";
 import { cheeseConfigDefault } from "./cheeseConfigDefault";
@@ -13,6 +13,7 @@ import { capitalizeExtra } from "capitalize-lightweight";
 import { CheeseLog, CheeseLogBase } from "../types/Cheese";
 import { ContextDependentCheeseConfig } from "../types/ContextDependentCheeseConfig";
 import { LogLevelEnabledFn } from "../types/LogLevelEnabledFn";
+import { reportConfig } from "../helpers/reportConfig";
 
 const who: Who = WhoAmINow();
 
@@ -24,6 +25,11 @@ let globalCheeseConfig: CheeseConfig | ContextDependentCheeseConfig;
 
 const cheeseLogFunctions = {};
 
+const getGlobalCheeseConfigEffective = (): CheeseConfig =>
+  typeof globalCheeseConfig === "function"
+    ? globalCheeseConfig(who, LogLevel.log) // logLevel doesn't matter for the reporting checks
+    : globalCheeseConfig;
+
 const cheeseLogBase: CheeseLogBase = {
   config: (cheeseConfig: CheeseConfig | ContextDependentCheeseConfig) => {
     globalCheeseConfig =
@@ -31,10 +37,8 @@ const cheeseLogBase: CheeseLogBase = {
         ? cheeseConfig
         : { ...cheeseConfigDefault, ...cheeseConfig };
 
-    const globalCheeseConfigEffective =
-      typeof globalCheeseConfig === "function"
-        ? globalCheeseConfig(who, LogLevel.log) // logLevel doesn't matter for the reporting checks
-        : globalCheeseConfig;
+    const globalCheeseConfigEffective: CheeseConfig =
+      getGlobalCheeseConfigEffective();
 
     initializeFunctions(globalCheeseConfigEffective.logLevelEnabled, cheese);
 
@@ -48,6 +52,10 @@ const cheeseLogBase: CheeseLogBase = {
       }
     }
     initialized = true;
+  },
+  printConfig: () => {
+    const currentConfig = getGlobalCheeseConfigEffective();
+    reportConfig(currentConfig);
   },
 };
 

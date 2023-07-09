@@ -17,6 +17,7 @@ type TableData<T extends object> = T[];
 
 export type CheeseLogBase = {
   config: (cheeseConfig: CheeseConfig | ContextDependentCheeseConfig) => void;
+  printConfig: () => void;
 };
 
 type CheeseLogFns = {
