@@ -25,10 +25,12 @@ let globalCheeseConfig: CheeseConfig | ContextDependentCheeseConfig;
 
 const cheeseLogFunctions = {};
 
-const getGlobalCheeseConfigEffective = (): CheeseConfig =>
-  typeof globalCheeseConfig === "function"
+const getGlobalCheeseConfigEffective = (): CheeseConfig => ({
+  ...cheeseConfigDefault,
+  ...(typeof globalCheeseConfig === "function"
     ? globalCheeseConfig(who, LogLevel.log) // logLevel doesn't matter for the reporting checks
-    : globalCheeseConfig;
+    : globalCheeseConfig),
+});
 
 const cheeseLogBase: CheeseLogBase = {
   config: (cheeseConfig: CheeseConfig | ContextDependentCheeseConfig) => {
@@ -69,7 +71,7 @@ const logWithGlobalConfig =
     console[logLevel](
       prepareMsg(
         logLevel,
-        globalCheeseConfig,
+        getGlobalCheeseConfigEffective(),
         {},
         who,
         colorOverride,
