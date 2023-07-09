@@ -1,10 +1,11 @@
 import util from "util";
-import { bgCyan, bgGreen, bgLightRed, white } from "ansicolor";
+import { bgCyan, bgDarkGray, bgGreen, bgLightRed, white } from "ansicolor";
 import { getTextColorFn } from "./getTextColorFn";
 import { getBgColorFn } from "./getBgColorFn";
 import { shortenStringsInObject } from "../helpers/shortenStringsInObject";
 import { shortenArraysInObject } from "../helpers/shortenArraysInObject";
 import { CheeseColors } from "../types/CheeseColors";
+import { replaceCircularRefs } from "../helpers/replaceCircularRefs";
 
 export const processOneArg = (
   arg: any,
@@ -22,15 +23,17 @@ export const processOneArg = (
   escapeWhitespaces: boolean,
   forceNewlines: boolean
 ): string => {
+  const argWithCircularFix = replaceCircularRefs(arg, undefined);
+
   const argWithShortenedStrings =
     maxStringLength !== undefined
-      ? shortenStringsInObject(arg, maxStringLength)
-      : arg;
+      ? shortenStringsInObject(argWithCircularFix, maxStringLength)
+      : argWithCircularFix;
 
   const argWithShortenedArrays =
     maxArrayLength !== undefined
       ? shortenArraysInObject(argWithShortenedStrings, maxArrayLength)
-      : arg;
+      : argWithShortenedStrings;
 
   const isFirst = index === 0;
   const isLast = index === nrOfArgs - 1;
@@ -111,10 +114,20 @@ export const processOneArg = (
     }
   }
 
+  // prettify [Object] entries:
   const objectColorFn = allColorsDisabled ? (s) => s : (s) => bgCyan(white(s));
   inspectedObject = inspectedObject.replace(
     /\[Object]/g,
     objectColorFn("[Object]")
+  );
+
+  // prettify [Circular] entries:
+  const circularColorFn = allColorsDisabled
+    ? (s) => s
+    : (s) => bgDarkGray(white(s));
+  inspectedObject = inspectedObject.replace(
+    /'\[Circular]'/g,
+    circularColorFn("[Circular]")
   );
 
   const textColorFn = getTextColorFn(
