@@ -7,7 +7,11 @@ export const shortenStringsInObject = (
   objectToModify: NestedObject,
   maxLength: number
 ): object => {
-  const selector = (key, value) =>
+  if (!objectToModify) {
+    return objectToModify;
+  }
+
+  const selector = (_, value) =>
     typeof value === "string" && value.length > maxLength;
   const modifier =
     maxLength === 0

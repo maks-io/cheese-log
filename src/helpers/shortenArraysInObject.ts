@@ -7,7 +7,10 @@ export const shortenArraysInObject = (
   objectToModify: NestedObject,
   maxLength: number
 ): object => {
-  if (typeof objectToModify !== "object" && !Array.isArray(objectToModify)) {
+  if (
+    (typeof objectToModify !== "object" || !objectToModify) &&
+    !Array.isArray(objectToModify)
+  ) {
     return objectToModify;
   }
   const selector = (key, value) =>
