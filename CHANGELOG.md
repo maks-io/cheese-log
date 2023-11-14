@@ -1,4 +1,10 @@
+#### 1.0.8 (2023-11-14)
+
+* Update dependencies
+
 #### 1.0.7 (2023-07-25)
+
+##### Bug Fixes
 
 *  proper handling of null and undefined values ([5475c376](https://github.com/maks-io/cheese-log/commit/5475c376d6b14d156753bd43bb9b79ea4ece3996))
 
