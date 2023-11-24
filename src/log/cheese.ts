@@ -42,7 +42,10 @@ const cheeseLogBase: CheeseLogBase = {
     const globalCheeseConfigEffective: CheeseConfig =
       getGlobalCheeseConfigEffective();
 
-    initializeFunctions(globalCheeseConfigEffective.logLevelEnabled, cheese);
+    cheese = initializeFunctions(
+      globalCheeseConfigEffective.logLevelEnabled,
+      cheese,
+    );
 
     if (!initialized) {
       if (globalCheeseConfigEffective.reportInitialization) {
@@ -76,8 +79,8 @@ const logWithGlobalConfig =
         who,
         colorOverride,
         useTable,
-        ...args
-      )
+        ...args,
+      ),
     );
   };
 
@@ -96,8 +99,8 @@ const logWithPrependedConfig =
         who,
         colorOverride,
         useTable,
-        ...args
-      )
+        ...args,
+      ),
     );
   };
 
@@ -122,8 +125,8 @@ const logWithAppendedConfig =
         who,
         colorOverride,
         useTable,
-        ...args
-      )
+        ...args,
+      ),
     );
   };
 
@@ -131,9 +134,11 @@ const colorValues = ["", ...Object.keys(CheeseColors)];
 
 const initializeFunctions = (
   logLevelEnabledFn?: LogLevelEnabledFn,
-  cheeseInstance?: CheeseLog
-) => {
-  const functionHolder = cheeseInstance ?? cheeseLogFunctions;
+  cheeseInstance?: CheeseLog,
+): CheeseLog => {
+  const functionHolder = cheeseInstance
+    ? Object.assign({}, cheeseInstance)
+    : cheeseLogFunctions;
 
   Object.values(LogLevel).forEach((logLevel) => {
     const logLevelEnabled = !logLevelEnabledFn
@@ -168,9 +173,11 @@ const initializeFunctions = (
       ? nullFn
       : logWithAppendedConfig(logLevel, undefined, true);
   });
+
+  return functionHolder as CheeseLog;
 };
 
-initializeFunctions();
+cheese = initializeFunctions();
 
 cheese = {
   ...cheeseLogBase,
