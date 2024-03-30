@@ -44,18 +44,18 @@
   },
   "homepage": "https://github.com/maks-io/cheese-log#readme",
   "dependencies": {
-    "ansicolor": "^2.0.1",
+    "ansicolor": "^2.0.3",
     "capitalize-lightweight": "^1.0.2",
     "dayjs": "^1.11.10",
     "string-table": "^0.1.5",
-    "who-am-i-now": "^1.0.7"
+    "who-am-i-now": "^2.1.0"
   },
   "devDependencies": {
-    "@types/node": "^20.9.0",
-    "nodemon": "^3.0.1",
-    "prettier": "^3.1.0",
+    "@types/node": "^20.12.2",
+    "nodemon": "^3.1.0",
+    "prettier": "^3.2.5",
     "tsc": "^2.0.4",
     "tsc-alias": "^1.8.8",
-    "typescript": "^5.2.2"
+    "typescript": "^5.4.3"
   }
 }
