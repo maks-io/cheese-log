@@ -1,5 +1,4 @@
 import { Who } from "who-am-i-now";
-import dayjs from "dayjs";
 import {
   bgDarkGray,
   bgLightGray,
@@ -13,6 +12,7 @@ import { LogLevel } from "../types/LogLevel";
 import { CHEESE_ICON } from "./cheeseIcon";
 import { getStackTrace } from "./getStackTrace";
 import { FormatMessageFn } from "../types/FormatMessageFn";
+import { getTimestamp } from "../helpers/getTimestamp";
 
 export const formatMessageDefault: FormatMessageFn = (
   message: string,
@@ -26,16 +26,16 @@ export const formatMessageDefault: FormatMessageFn = (
   autoColorizeObject: boolean,
   showCheeseIcon: boolean,
   allColorsDisabled: boolean,
-  colorOverride: string
+  colorOverride: string,
 ) => {
   const cheeseIconPrepared = showCheeseIcon ? CHEESE_ICON + " " : "";
   const logLevelPrepared = showLogLevel
     ? "[" + logLevel + "]" + (showDate ? " " : "")
     : "";
   const datePrepared = showDate
-    ? dayjs(millisecondsSince1970, "x").format(dateFormat)
+    ? getTimestamp(dateFormat, millisecondsSince1970)
     : "";
-  const originInfo = showOrigin ? getStackTrace()?.[0] ?? "" : "";
+  const originInfo = showOrigin ? getStackTrace() ?? "" : "";
 
   let prefixPrepared = `${cheeseIconPrepared}${logLevelPrepared}${datePrepared}`;
   if (!allColorsDisabled) {
