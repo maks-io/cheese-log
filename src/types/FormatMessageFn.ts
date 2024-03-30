@@ -14,5 +14,7 @@ export type FormatMessageFn = (
   autoColorizeObject: boolean,
   showCheeseIcon: boolean,
   allColorsDisabled: boolean,
-  colorOverride: CheeseColors
+  colorOverride: CheeseColors,
+  messagePrefix: string,
+  messageSuffix: string,
 ) => string;

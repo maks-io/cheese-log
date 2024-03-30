@@ -28,23 +28,25 @@ export const prepareMsg = (
       : resultingCheeseConfig[propName];
 
   const resultingCheeseConfigEffective: CheeseConfigEffective = {
-    autoColorizeObject: getEffectiveConfigProp("autoColorizeObject"),
-    depth: getEffectiveConfigProp("depth"),
-    table: useTable || getEffectiveConfigProp("table"),
-    spaces: getEffectiveConfigProp("spaces"),
-    showLogLevel: getEffectiveConfigProp("showLogLevel"),
-    showDate: getEffectiveConfigProp("showDate"),
-    dateFormat: getEffectiveConfigProp("dateFormat"),
-    showOrigin: getEffectiveConfigProp("showOrigin"),
-    showCheeseIcon: getEffectiveConfigProp("showCheeseIcon"),
-    maxArrayLength: getEffectiveConfigProp("maxArrayLength"),
-    maxStringLength: getEffectiveConfigProp("maxStringLength"),
-    colorOverride: getEffectiveConfigProp("colorOverride"),
     allColorsDisabled: getEffectiveConfigProp("allColorsDisabled"),
+    autoColorizeObject: getEffectiveConfigProp("autoColorizeObject"),
+    colorOverride: getEffectiveConfigProp("colorOverride"),
+    dateFormat: getEffectiveConfigProp("dateFormat"),
+    depth: getEffectiveConfigProp("depth"),
     escapeWhitespaces: getEffectiveConfigProp("escapeWhitespaces"),
     forceNewlines: getEffectiveConfigProp("forceNewlines"),
-    tableOptions: getEffectiveConfigProp("tableOptions"),
     formatMessage: resultingCheeseConfig.formatMessage,
+    maxArrayLength: getEffectiveConfigProp("maxArrayLength"),
+    maxStringLength: getEffectiveConfigProp("maxStringLength"),
+    messagePrefix: getEffectiveConfigProp("messagePrefix"),
+    messageSuffix: getEffectiveConfigProp("messageSuffix"),
+    showCheeseIcon: getEffectiveConfigProp("showCheeseIcon"),
+    showDate: getEffectiveConfigProp("showDate"),
+    showLogLevel: getEffectiveConfigProp("showLogLevel"),
+    showOrigin: getEffectiveConfigProp("showOrigin"),
+    spaces: getEffectiveConfigProp("spaces"),
+    table: useTable || getEffectiveConfigProp("table"),
+    tableOptions: getEffectiveConfigProp("tableOptions"),
   };
 
   const {
@@ -65,6 +67,8 @@ export const prepareMsg = (
     escapeWhitespaces,
     forceNewlines,
     tableOptions,
+    messagePrefix,
+    messageSuffix,
   } = resultingCheeseConfigEffective;
 
   return formatMessage(
@@ -81,7 +85,7 @@ export const prepareMsg = (
       autoColorizeObject,
       escapeWhitespaces,
       forceNewlines,
-      tableOptions
+      tableOptions,
     ),
     who,
     showLogLevel,
@@ -93,6 +97,8 @@ export const prepareMsg = (
     autoColorizeObject,
     showCheeseIcon,
     allColorsDisabled,
-    colorOverridePredefined ?? colorOverride
+    colorOverridePredefined ?? colorOverride,
+    messagePrefix,
+    messageSuffix,
   );
 };

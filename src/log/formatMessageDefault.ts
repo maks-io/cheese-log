@@ -27,8 +27,11 @@ export const formatMessageDefault: FormatMessageFn = (
   showCheeseIcon: boolean,
   allColorsDisabled: boolean,
   colorOverride: string,
+  messagePrefix: string,
+  messageSuffix: string,
 ) => {
   const cheeseIconPrepared = showCheeseIcon ? CHEESE_ICON + " " : "";
+  const messagePrefixPrepared = messagePrefix ? messagePrefix + " " : "";
   const logLevelPrepared = showLogLevel
     ? "[" + logLevel + "]" + (showDate ? " " : "")
     : "";
@@ -37,7 +40,7 @@ export const formatMessageDefault: FormatMessageFn = (
     : "";
   const originInfo = showOrigin ? getStackTrace() ?? "" : "";
 
-  let prefixPrepared = `${cheeseIconPrepared}${logLevelPrepared}${datePrepared}`;
+  let prefixPrepared = `${cheeseIconPrepared}${messagePrefixPrepared}${logLevelPrepared}${datePrepared}`;
   if (!allColorsDisabled) {
     const textColorFn = who.isServerApp ? black : white;
     if (logLevel === LogLevel.error) {
@@ -54,5 +57,5 @@ export const formatMessageDefault: FormatMessageFn = (
   }
 
   const originInfoPrepared = originInfo ? `   ${originInfo}\n` : "";
-  return `${prefixPrepared}\n${originInfoPrepared}${message}`;
+  return `${prefixPrepared}\n${originInfoPrepared}${message}${messageSuffix}`;
 };

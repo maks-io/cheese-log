@@ -19,6 +19,8 @@ export interface CheeseConfig {
   logLevelEnabled?: LogLevelEnabledFn;
   maxArrayLength?: ContextDependingValue<number>;
   maxStringLength?: ContextDependingValue<number>;
+  messagePrefix?: ContextDependingValue<string>;
+  messageSuffix?: ContextDependingValue<string>;
   reportGlobalConfigChange?: boolean;
   reportInitialization?: boolean;
   showCheeseIcon?: ContextDependingValue<boolean>;
@@ -42,6 +44,8 @@ export interface CheeseConfigEffective {
   logLevelEnabled?: LogLevelEnabledFn;
   maxArrayLength: number;
   maxStringLength: number;
+  messagePrefix: string;
+  messageSuffix: string;
   showCheeseIcon: boolean;
   showDate: boolean;
   showLogLevel: boolean;
@@ -62,6 +66,8 @@ export const cheeseConfigAllowedKeys = [
   "logLevelEnabled",
   "maxArrayLength",
   "maxStringLength",
+  "messagePrefix",
+  "messageSuffix",
   "reportGlobalConfigChange",
   "reportInitialization",
   "showCheeseIcon",
