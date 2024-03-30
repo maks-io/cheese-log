@@ -2,7 +2,7 @@
 
 * Improve initialization process
 
-* #### 1.0.8 (2023-11-14)
+#### 1.0.8 (2023-11-14)
 
 * Update dependencies
 
