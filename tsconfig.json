@@ -1,9 +1,12 @@
 {
   "compilerOptions": {
     "baseUrl": "src",
+    "emitDecoratorMetadata": true,
     "esModuleInterop": true,
+    "experimentalDecorators": true,
     "lib": ["ES2020", "DOM"],
     "moduleResolution": "Node",
+    "module": "ES6",
     "outDir": "build",
     "jsx": "react",
     "declaration": true,

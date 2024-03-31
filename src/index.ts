@@ -10,6 +10,7 @@ import { ContextDependentCheeseConfig } from "./types/ContextDependentCheeseConf
 import { LogLevel } from "./types/LogLevel";
 
 export { ansicolor, cheese, CheeseColors, LogLevel, getStackTrace, getTimestamp };
+
 export type {
   CheeseConfig,
   ContextDependentCheeseConfig,
