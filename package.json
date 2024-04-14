@@ -1,6 +1,6 @@
 {
   "name": "cheese-log",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "A colorful logger with browser-/environment-dependent formatting possibilities, table printing, object depth limiting, string- and array-truncating, etc.",
   "main": "build/bundle.js",
   "types": "build/types/index.d.ts",
