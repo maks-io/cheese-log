@@ -32,6 +32,7 @@ export const formatMessageDefault: FormatMessageFn = (
 ) => {
   const cheeseIconPrepared = showCheeseIcon ? CHEESE_ICON + " " : "";
   const messagePrefixPrepared = messagePrefix ? messagePrefix + " " : "";
+  const messageSuffixPrepared = messageSuffix ?? "";
   const logLevelPrepared = showLogLevel
     ? "[" + logLevel + "]" + (showDate ? " " : "")
     : "";
@@ -57,5 +58,5 @@ export const formatMessageDefault: FormatMessageFn = (
   }
 
   const originInfoPrepared = originInfo ? `   ${originInfo}\n` : "";
-  return `${prefixPrepared}\n${originInfoPrepared}${message}${messageSuffix}`;
+  return `${prefixPrepared}\n${originInfoPrepared}${message}${messageSuffixPrepared}`;
 };
