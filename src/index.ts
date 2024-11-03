@@ -17,4 +17,3 @@ export type {
   FormatMessageFn,
   Who,
 };
-export default cheese;
