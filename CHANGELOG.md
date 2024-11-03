@@ -1,10 +1,15 @@
+#### 2.0.0 (2024-11-03)
+
+* Upgrade dependencies
+* Remove default export
+
 #### 1.0.9 (2023-11-24)
 
 * Improve initialization process
 
 #### 1.0.8 (2023-11-14)
 
-* Update dependencies
+* Upgrade dependencies
 
 #### 1.0.7 (2023-07-25)
 

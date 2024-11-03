@@ -58,7 +58,7 @@ The following subsections are showing different usage examples of varying comple
 ### Example: Simple usage
 
 ```typescript
-import cheese, { CheeseConfig } from "cheese-log";
+import { cheese, CheeseConfig } from "cheese-log";
 
 // it is mandatory to initialize the cheese logger like so:
 const cheeseConfig: CheeseConfig = {};
@@ -99,7 +99,7 @@ Check out the live demo at [https://stackblitz.com/edit/cheese-log-simple-usage]
 ### Example: Explore some initial config's props:
 
 ```typescript
-import cheese, { CheeseConfig } from "cheese-log";
+import { cheese, CheeseConfig } from "cheese-log";
 
 const cheeseConfig: CheeseConfig = {
   showDate: false, // is true by default
@@ -128,7 +128,7 @@ Check out the live demo at [https://stackblitz.com/edit/cheese-log-explore-some-
 You can override the options for individual messages by using 2 kinds of functions as shown in the following example:
 
 ```typescript
-import cheese, { CheeseConfig } from "cheese-log";
+import { cheese, CheeseConfig } from "cheese-log";
 
 const cheeseConfig: CheeseConfig = {};
 cheese.config(cheeseConfig);
@@ -161,7 +161,7 @@ Check out the live demo at [https://stackblitz.com/edit/cheese-log-override-conf
 Cheese-log offers some coloring possibilities. While certain coloring happens automatically for objects, you can always override the color by using the option `colorOverride`. On top of that, to make the coder's life easier, you can instead also use the predefined log functions in the shape `[LOGLEVEL][COLOR]()`, like the following example shows:
 
 ```typescript
-import cheese, { CheeseConfig } from "cheese-log";
+import { cheese, CheeseConfig } from "cheese-log";
 
 const cheeseConfig: CheeseConfig = {};
 cheese.config(cheeseConfig);
@@ -204,7 +204,7 @@ Configs passed to cheese-log can be static option objects as described [here](#c
 The following example should be self-explanatory:
 
 ```typescript
-import cheese, { CheeseConfig } from "cheese-log";
+import { cheese, CheeseConfig } from "cheese-log";
 
 const contextDependentCheeseConfig: ContextDependentCheeseConfig = (
   who,
@@ -297,7 +297,7 @@ When logging (nested) objects, the library tries to automatically colorize indiv
 See the following example:
 
 ```typescript
-import cheese, { CheeseConfig } from "cheese-log";
+import { cheese, CheeseConfig } from "cheese-log";
 
 cheese.config({});
 
@@ -319,7 +319,7 @@ The result:
 Cheese-log allows you to automatically truncate strings that exceed certain lengths.
 
 ```typescript
-import cheese, { CheeseConfig } from "cheese-log";
+import { cheese, CheeseConfig } from "cheese-log";
 
 const cheeseConfig: CheeseConfig = { maxStringLength: 12 };
 cheese.config(cheeseConfig);
@@ -362,7 +362,7 @@ cheese.logGreen({
 It is allowed to pass `maxStringLength: 0`:
 
 ```typescript
-import cheese, { CheeseConfig } from "cheese-log";
+import { cheese, CheeseConfig } from "cheese-log";
 
 const cheeseConfig: CheeseConfig = { maxStringLength: 0 };
 cheese.config(cheeseConfig);
@@ -392,7 +392,7 @@ cheese.log("a first log argument, which is simply a plain string", {
 Similarly to string truncating, you can also let cheese-log automatically shorten arrays exceeding certain lengths:
 
 ```typescript
-import cheese, { CheeseConfig } from "cheese-log";
+import { cheese, CheeseConfig } from "cheese-log";
 
 const cheeseConfig: CheeseConfig = { maxArrayLength: 5 };
 cheese.config(cheeseConfig);
@@ -419,7 +419,7 @@ Check out the live demo at [https://stackblitz.com/edit/cheese-log-shorten-array
 As developers, we often come across situations where we need to deal with deeply nested objects. Fortunately many browser consoles allow collapsing- and expanding-functionalities. For cases where this is not helpful or possible, cheese-log allows to limit the depth of printed objects:
 
 ```typescript
-import cheese, { CheeseConfig } from "cheese-log";
+import { cheese, CheeseConfig } from "cheese-log";
 
 const cheeseConfig: CheeseConfig = { depth: 3 };
 cheese.config(cheeseConfig);
@@ -452,7 +452,7 @@ If you need to show data in a row/colum way, you can easily print tables with ch
 Make sure you provide an array of objects, where every object features the same set of keys, like so:
 
 ```typescript
-import cheese, { CheeseConfig } from "cheese-log";
+import { cheese, CheeseConfig } from "cheese-log";
 
 const cheeseConfig: CheeseConfig = { table: true };
 cheese.config(cheeseConfig);
@@ -484,7 +484,7 @@ cheese._infoTable<TableData>(...);
 You can adjust a few formatting options for tables, by setting a `tableOptions` prop:
 
 ```typescript
-import cheese, { CheeseConfig } from "cheese-log";
+import { cheese, CheeseConfig } from "cheese-log";
 
 const cheeseConfig: CheeseConfig = {
   table: true,
