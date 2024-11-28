@@ -1095,6 +1095,11 @@ ajv@^8.0.0, ajv@^8.9.0:
     json-schema-traverse "^1.0.0"
     require-from-string "^2.0.2"
 
+ansicolor@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/ansicolor/-/ansicolor-2.0.3.tgz#ec4448ae5baf8c2d62bf2dad52eac06ba0b5ea21"
+  integrity sha512-pzusTqk9VHrjgMCcTPDTTvfJfx6Q3+L5tQ6yKC8Diexmoit4YROTFIkxFvRTNL9y5s0Q8HrSrgerCD5bIC+Kiw==
+
 anymatch@~3.1.2:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/anymatch/-/anymatch-3.1.3.tgz#790c58b19ba1720a84205b57c618d5ad8524973e"
@@ -1207,11 +1212,6 @@ capitalize-lightweight@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/capitalize-lightweight/-/capitalize-lightweight-1.0.2.tgz#d3dedf2dd083686a56b222d84ee24df27fa772f6"
   integrity sha512-vFxaj5vCM3u7SFuDXptSI3W50wtx29cKFifCCKMyKeNej4J7Ke0JvcLHCmSevmiF1GM/IVij4iGab4zv7CVFEQ==
-
-chalk@^5.3.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/chalk/-/chalk-5.3.0.tgz#67c20a7ebef70e7f3970a01f90fa210cb6860385"
-  integrity sha512-dLitG79d+GV1Nb/VYcCDFivJeK1hiukt9QjRNVOsUtTy1rR1YJsmpGGTZ3qJos+uw7WmWF4wUwBd9jxjocFC2w==
 
 chokidar@^3.5.2, chokidar@^3.5.3:
   version "3.6.0"

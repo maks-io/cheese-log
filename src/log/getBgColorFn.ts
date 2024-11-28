@@ -1,27 +1,27 @@
-import c, { ChalkInstance } from "chalk";
+import c, { AnsicolorMethods } from "ansicolor";
 import { CheeseColors } from "../types/CheeseColors";
 
 export const getBgColorFn = (
-  color?: CheeseColors,
-): ChalkInstance | ((str: string) => string) => {
+  color?: CheeseColors
+): AnsicolorMethods | ((str: string) => string) => {
   if (!color) {
     return (str: string) => str;
   }
   return {
-    gray: c.bgBlackBright,
-    lightgray: c.bgGray,
+    gray: c.bgDarkGray,
+    lightgray: c.bgLightGray,
     blue: c.bgBlue,
-    lightblue: c.bgBlueBright,
+    lightblue: c.bgLightBlue,
     cyan: c.bgCyan,
-    lightcyan: c.bgCyanBright,
+    lightcyan: c.bgLightCyan,
     red: c.bgRed,
-    lightred: c.bgRedBright,
+    lightred: c.bgLightRed,
     green: c.bgGreen,
-    lightgreen: c.bgGreenBright,
+    lightgreen: c.bgLightGreen,
     yellow: c.bgYellow,
-    lightyellow: c.bgYellowBright,
+    lightyellow: c.bgLightYellow,
     magenta: c.bgMagenta,
-    lightmagenta: c.bgMagentaBright,
+    lightmagenta: c.bgLightMagenta,
     black: c.bgBlack,
     white: c.bgWhite,
   }[color.toLowerCase()];

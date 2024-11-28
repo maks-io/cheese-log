@@ -287,9 +287,7 @@ const formatMessageDefault: FormatMessageFn = (
 };
 ```
 
-**Since version 1.10.0** you can also import `getStackTrace`, `getTimestamp`, which can be helpful when building your own custom message format function.
-
-**Since version 3.0.0** you can also import `chalk` (which is now replacing `ansicolor` package), for coloring your customized output.
+**Since version 1.10.0** you can also import `getStackTrace`, `getTimestamp` as well as the individual coloring functions via `ansicolor`, which can be helpful when building your own custom message format function.
 
 Check out the live demo at [https://stackblitz.com/edit/cheese-log-custom-msg-format-function](https://stackblitz.com/edit/cheese-log-custom-msg-format-function?file=index.ts).
 
