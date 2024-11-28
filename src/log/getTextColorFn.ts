@@ -1,28 +1,28 @@
-import c, { AnsicolorMethods } from "ansicolor";
+import chalk, { ChalkInstance } from "chalk";
 import { CheeseColors } from "../types/CheeseColors";
 
 export const getTextColorFn = (
-  color?: CheeseColors
-): AnsicolorMethods | ((str: string) => string) => {
+  color?: CheeseColors,
+): ChalkInstance | ((str: string) => string) => {
   if (!color) {
     return (str: string) => str;
   }
   return {
-    gray: c.darkGray,
-    lightgray: c.lightGray,
-    blue: c.blue,
-    lightblue: c.lightBlue,
-    cyan: c.cyan,
-    lightcyan: c.lightCyan,
-    red: c.red,
-    lightred: c.lightRed,
-    green: c.green,
-    lightgreen: c.lightGreen,
-    yellow: c.yellow,
-    lightyellow: c.lightYellow,
-    magenta: c.magenta,
-    lightmagenta: c.lightMagenta,
-    black: c.black,
-    white: c.white,
+    gray: chalk.blackBright,
+    lightgray: chalk.gray,
+    blue: chalk.blue,
+    lightblue: chalk.blueBright,
+    cyan: chalk.cyan,
+    lightcyan: chalk.cyanBright,
+    red: chalk.red,
+    lightred: chalk.redBright,
+    green: chalk.green,
+    lightgreen: chalk.greenBright,
+    yellow: chalk.yellow,
+    lightyellow: chalk.yellowBright,
+    magenta: chalk.magenta,
+    lightmagenta: chalk.magentaBright,
+    black: chalk.black,
+    white: chalk.white,
   }[color.toLowerCase()];
 };

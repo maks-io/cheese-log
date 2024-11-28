@@ -1,13 +1,5 @@
 import { Who } from "who-am-i-now";
-import {
-  bgDarkGray,
-  bgLightGray,
-  bgMagenta,
-  bgRed,
-  bgYellow,
-  black,
-  white,
-} from "ansicolor";
+import chalk from "chalk";
 import { LogLevel } from "../types/LogLevel";
 import { CHEESE_ICON } from "./cheeseIcon";
 import { getStackTrace } from "./getStackTrace";
@@ -39,21 +31,21 @@ export const formatMessageDefault: FormatMessageFn = (
   const datePrepared = showDate
     ? getTimestamp(dateFormat, millisecondsSince1970)
     : "";
-  const originInfo = showOrigin ? getStackTrace() ?? "" : "";
+  const originInfo = showOrigin ? (getStackTrace() ?? "") : "";
 
   let prefixPrepared = `${cheeseIconPrepared}${messagePrefixPrepared}${logLevelPrepared}${datePrepared}`;
   if (!allColorsDisabled) {
-    const textColorFn = who.isServerApp ? black : white;
+    const textColorFn = who.isServerApp ? chalk.black : chalk.white;
     if (logLevel === LogLevel.error) {
-      prefixPrepared = bgRed(textColorFn(prefixPrepared));
+      prefixPrepared = chalk.bgRed(textColorFn(prefixPrepared));
     } else if (logLevel === LogLevel.warn) {
-      prefixPrepared = bgYellow(textColorFn(prefixPrepared));
+      prefixPrepared = chalk.bgYellow(textColorFn(prefixPrepared));
     } else if (logLevel === LogLevel.info) {
-      prefixPrepared = bgLightGray(textColorFn(prefixPrepared));
+      prefixPrepared = chalk.bgGray(textColorFn(prefixPrepared));
     } else if (logLevel === LogLevel.log) {
-      prefixPrepared = bgDarkGray(textColorFn(prefixPrepared));
+      prefixPrepared = chalk.bgBlackBright(textColorFn(prefixPrepared));
     } else if (logLevel === LogLevel.debug) {
-      prefixPrepared = bgMagenta(textColorFn(prefixPrepared));
+      prefixPrepared = chalk.bgMagenta(textColorFn(prefixPrepared));
     }
   }
 

@@ -1,6 +1,6 @@
 {
   "name": "cheese-log",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "A colorful logger with browser-/environment-dependent formatting possibilities, table printing, object depth limiting, string- and array-truncating, etc.",
   "main": "build/bundle.js",
   "types": "build/types/index.d.ts",
@@ -45,8 +45,8 @@
   },
   "homepage": "https://github.com/maks-io/cheese-log#readme",
   "dependencies": {
-    "ansicolor": "^2.0.3",
     "capitalize-lightweight": "^1.0.2",
+    "chalk": "^5.3.0",
     "dayjs": "^1.11.13",
     "string-table": "^0.1.5",
     "util": "^0.12.5",

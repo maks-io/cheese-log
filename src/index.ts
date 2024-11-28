@@ -1,5 +1,5 @@
 import { Who } from "who-am-i-now";
-import ansicolor from "ansicolor";
+import chalk from "chalk";
 import cheese from "./log/cheese";
 import { getTimestamp } from "./helpers/getTimestamp";
 import { getStackTrace } from "./log/getStackTrace";
@@ -9,7 +9,7 @@ import { FormatMessageFn } from "./types/FormatMessageFn";
 import { ContextDependentCheeseConfig } from "./types/ContextDependentCheeseConfig";
 import { LogLevel } from "./types/LogLevel";
 
-export { ansicolor, cheese, CheeseColors, LogLevel, getStackTrace, getTimestamp };
+export { cheese, CheeseColors, LogLevel, getStackTrace, getTimestamp, chalk };
 
 export type {
   CheeseConfig,
