@@ -21,7 +21,7 @@ export const processOneArg = (
   colorOverride: CheeseColors,
   autoColorizeObject: boolean,
   escapeWhitespaces: boolean,
-  forceNewlines: boolean
+  forceNewlines: boolean,
 ): string => {
   const argWithCircularFix = replaceCircularRefs(arg, undefined);
 
@@ -36,7 +36,6 @@ export const processOneArg = (
       : argWithShortenedStrings;
 
   const isFirst = index === 0;
-  const isLast = index === nrOfArgs - 1;
   const isString = typeof arg === "string";
   const isObject = typeof arg === "object";
   const isArray = Array.isArray(arg);
@@ -66,24 +65,24 @@ export const processOneArg = (
     const colorFn = allColorsDisabled
       ? (s) => s
       : colorOverride || colorOverridePredefined
-      ? (s) => {
-          return getBgColorFn(colorOverride || colorOverridePredefined)(
-            white(s)
-          );
-        }
-      : (s) => bgGreen(white(s));
+        ? (s) => {
+            return getBgColorFn(colorOverride || colorOverridePredefined)(
+              white(s),
+            );
+          }
+        : (s) => bgGreen(white(s));
 
     if (maxStringLength === 0) {
       inspectedObject = inspectedObject.replace(
         /\[String\((\d+?)\)]/g,
-        colorFn(`[String($1)]`)
+        colorFn(`[String($1)]`),
       );
     } else {
       inspectedObject = inspectedObject.replace(
         /\[...and (\d+?) more characters]/g,
         colorFn(
-          `${highlightingOpeningChar}...and $1 more characters${highlightingClosingChar}`
-        )
+          `${highlightingOpeningChar}...and $1 more characters${highlightingClosingChar}`,
+        ),
       );
     }
   }
@@ -92,24 +91,24 @@ export const processOneArg = (
     const colorFn = allColorsDisabled
       ? (s) => s
       : colorOverride || colorOverridePredefined
-      ? (s) => {
-          return getBgColorFn(colorOverride || colorOverridePredefined)(
-            white(s)
-          );
-        }
-      : (s) => bgLightRed(white(s));
+        ? (s) => {
+            return getBgColorFn(colorOverride || colorOverridePredefined)(
+              white(s),
+            );
+          }
+        : (s) => bgLightRed(white(s));
 
     if (maxArrayLength === 0) {
       inspectedObject = inspectedObject.replace(
         /'\[Array\((\d+?)\)]'/g,
-        colorFn(`[Array($1)]`)
+        colorFn(`[Array($1)]`),
       );
     } else {
       inspectedObject = inspectedObject.replace(
         /'\[...and (\d+?) more elements]'/g,
         colorFn(
-          `${highlightingOpeningChar}...and $1 more elements${highlightingClosingChar}`
-        )
+          `${highlightingOpeningChar}...and $1 more elements${highlightingClosingChar}`,
+        ),
       );
     }
   }
@@ -118,7 +117,7 @@ export const processOneArg = (
   const objectColorFn = allColorsDisabled ? (s) => s : (s) => bgCyan(white(s));
   inspectedObject = inspectedObject.replace(
     /\[Object]/g,
-    objectColorFn("[Object]")
+    objectColorFn("[Object]"),
   );
 
   // prettify [Circular] entries:
@@ -127,19 +126,19 @@ export const processOneArg = (
     : (s) => bgDarkGray(white(s));
   inspectedObject = inspectedObject.replace(
     /'\[Circular]'/g,
-    circularColorFn("[Circular]")
+    circularColorFn("[Circular]"),
   );
 
   const textColorFn = getTextColorFn(
     allColorsDisabled || (isObject && !autoColorizeObject)
       ? undefined
-      : colorOverridePredefined ?? colorOverride
+      : (colorOverridePredefined ?? colorOverride),
   );
 
   const objectPrepared = textColorFn(
     isString
       ? inspectedObject.substring(1, inspectedObject.length - 1)
-      : inspectedObject
+      : inspectedObject,
   );
 
   if (forceNewlines) {
@@ -150,11 +149,9 @@ export const processOneArg = (
     ((isObject || isArray) && !isFirst
       ? "\n"
       : isFirst
-      ? ""
-      : spaces
-      ? " "
-      : "") +
-    objectPrepared +
-    (isLast ? "\n" : "")
+        ? ""
+        : spaces
+          ? " "
+          : "") + objectPrepared
   );
 };

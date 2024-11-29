@@ -1,3 +1,21 @@
+#### 4.0.1 (2024-11-29)
+
+* Fix unnecessary newlines
+  * if prefix is empty also avoid newline
+  * last object does not need to append newline
+
+#### 4.0.0 (2024-11-28)
+
+* Undo 'Replace ansicolor by chalk'
+
+#### 3.0.1 (2024-11-28)
+
+* Add Dependabot PR
+
+#### 3.0.0 (2024-11-28)
+
+* Replace ansicolor by chalk
+
 #### 2.0.0 (2024-11-03)
 
 * Upgrade dependencies

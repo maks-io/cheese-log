@@ -39,10 +39,13 @@ export const formatMessageDefault: FormatMessageFn = (
   const datePrepared = showDate
     ? getTimestamp(dateFormat, millisecondsSince1970)
     : "";
-  const originInfo = showOrigin ? getStackTrace() ?? "" : "";
+  const originInfo = showOrigin ? (getStackTrace() ?? "") : "";
 
   let prefixPrepared = `${cheeseIconPrepared}${messagePrefixPrepared}${logLevelPrepared}${datePrepared}`;
-  if (!allColorsDisabled) {
+
+  const havePrefix = prefixPrepared.length > 0;
+
+  if (havePrefix && !allColorsDisabled) {
     const textColorFn = who.isServerApp ? black : white;
     if (logLevel === LogLevel.error) {
       prefixPrepared = bgRed(textColorFn(prefixPrepared));
@@ -58,5 +61,6 @@ export const formatMessageDefault: FormatMessageFn = (
   }
 
   const originInfoPrepared = originInfo ? `   ${originInfo}\n` : "";
-  return `${prefixPrepared}\n${originInfoPrepared}${message}${messageSuffixPrepared}`;
+
+  return `${havePrefix ? prefixPrepared + "\n" : ""}${originInfoPrepared}${message}${messageSuffixPrepared}`;
 };
