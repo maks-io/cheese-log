@@ -4,9 +4,9 @@ import { CheeseConfig } from "../types/CheeseConfig";
 const prefix = `[${CHEESE_ICON} cheese-log]`;
 
 export const reportConfig = (config: CheeseConfig): void => {
-  const printableConfig = {};
+  const printableConfig: Record<string, unknown> = {};
   Object.keys(config).forEach((prop) => {
-    const value = config[prop];
+    const value = config[prop as keyof CheeseConfig];
     if (typeof value !== "function") {
       printableConfig[prop] = value;
     } else {

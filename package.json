@@ -2,17 +2,6 @@
   "name": "cheese-log",
   "version": "4.0.1",
   "description": "A colorful logger with browser-/environment-dependent formatting possibilities, table printing, object depth limiting, string- and array-truncating, etc.",
-  "main": "build/bundle.js",
-  "types": "build/types/index.d.ts",
-  "scripts": {
-    "clear-build-folders": "rm -rf ./build && rm -rf ./dist",
-    "transpile": "tsc",
-    "fix-paths": "tsc-alias",
-    "grunt": "grunt",
-    "build": "sh ./build.sh",
-    "dev": "yarn nodemon",
-    "test": "jest"
-  },
   "keywords": [
     "log",
     "logger",
@@ -31,40 +20,103 @@
     "strings",
     "arrays"
   ],
-  "files": [
-    "build"
-  ],
+  "license": "MIT",
+  "author": "Markus Kurzmann <markus@kurzmann.io>",
+  "homepage": "https://github.com/maks-io/cheese-log#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/maks-io/cheese-log.git"
   },
-  "author": "Markus Kurzmann <markus@kurzmann.io>",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/maks-io/cheese-log/issues"
   },
-  "homepage": "https://github.com/maks-io/cheese-log#readme",
+  "main": "build/bundle.js",
+  "types": "build/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./build/types/index.d.ts",
+      "require": "./build/bundle.js",
+      "default": "./build/bundle.js"
+    }
+  },
+  "files": [
+    "build"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "npm@11.11.0",
+  "scripts": {
+    "clean": "rimraf ./build ./build-tmp ./coverage",
+    "transpile": "tsc -p tsconfig.json",
+    "bundle": "webpack --config webpack.config.js",
+    "build": "npm run clean && npm run transpile && npm run bundle",
+    "postbuild": "rimraf ./build-tmp",
+    "dev": "nodemon",
+    "verify": "npm run build && npm test",
+    "prepare": "husky",
+    "test": "jest --runInBand",
+    "test:watch": "jest --watch",
+    "pack:check": "npm pack --dry-run",
+    "commit": "node ./scripts/commit.cjs",
+    "commitlint": "commitlint --from=HEAD~1 --to=HEAD",
+    "commitlint:edit": "commitlint --edit",
+    "release:core": "semantic-release",
+    "release:dry-run:core": "semantic-release --dry-run --no-ci",
+    "release:dry-run": "node ./scripts/release-runner.cjs --dry-run",
+    "release": "node ./scripts/release-runner.cjs"
+  },
   "dependencies": {
     "ansicolor": "^2.0.3",
     "capitalize-lightweight": "^1.0.2",
-    "dayjs": "^1.11.13",
+    "dayjs": "^1.11.20",
     "string-table": "^0.1.5",
     "util": "^0.12.5",
-    "who-am-i-now": "^2.1.1"
+    "who-am-i-now": "^2.2.0"
+  },
+  "overrides": {
+    "ajv": "8.18.0",
+    "brace-expansion@^5.0.0": "5.0.5",
+    "picomatch@^2.0.0": "2.3.2",
+    "picomatch@^4.0.0": "4.0.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.26.0",
-    "@babel/preset-env": "^7.26.0",
-    "@types/node": "^22.10.1",
-    "babel-loader": "^9.2.1",
-    "copy-webpack-plugin": "^12.0.2",
-    "nodemon": "^3.1.7",
-    "prettier": "^3.4.1",
-    "terser-webpack-plugin": "^5.3.10",
-    "tsc": "^2.0.4",
-    "tsc-alias": "^1.8.10",
-    "typescript": "^5.7.2",
-    "webpack": "^5.96.1",
-    "webpack-cli": "^5.1.4"
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
+    "@semantic-release/commit-analyzer": "^13.0.1",
+    "@semantic-release/github": "^12.0.6",
+    "@semantic-release/npm": "^13.1.5",
+    "@semantic-release/release-notes-generator": "^14.1.0",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25.5.2",
+    "husky": "^9.1.7",
+    "jest": "^30.3.0",
+    "nodemon": "^3.1.14",
+    "prettier": "^3.8.1",
+    "rimraf": "^6.1.3",
+    "semantic-release": "^25.0.3",
+    "ts-jest": "^29.4.9",
+    "typescript": "^6.0.2",
+    "webpack": "^5.106.0",
+    "webpack-cli": "^7.0.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "testMatch": [
+      "**/*.test.ts"
+    ],
+    "transform": {
+      "^.+\\.ts$": [
+        "ts-jest",
+        {
+          "tsconfig": "tsconfig.test.json"
+        }
+      ]
+    },
+    "clearMocks": true,
+    "restoreMocks": true
   }
 }

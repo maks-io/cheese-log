@@ -4,33 +4,24 @@ const getPlaceholder = (numberOfRemovedElements: number) =>
   `[...and ${numberOfRemovedElements} more elements]`;
 
 export const shortenArraysInObject = (
-  objectToModify: NestedObject,
-  maxLength: number
-): object => {
+  objectToModify: unknown,
+  maxLength: number,
+): unknown => {
   if (
     (typeof objectToModify !== "object" || !objectToModify) &&
     !Array.isArray(objectToModify)
   ) {
     return objectToModify;
   }
-  const selector = (key, value) =>
+  const selector = (_key: string, value: unknown) =>
     Array.isArray(value) && value.length > maxLength;
-  const modifier =
+  const modifier: (value: unknown) => unknown =
     maxLength === 0
-      ? (value: any[]) => `[Array(${value.length})]`
-      : (value: any[]) => [
-          ...value.slice(0, maxLength),
-          getPlaceholder(value.length - maxLength),
+      ? (value) => `[Array(${(value as any[]).length})]`
+      : (value) => [
+          ...(value as any[]).slice(0, maxLength),
+          getPlaceholder((value as any[]).length - maxLength),
         ];
 
-  let c: any = Array.isArray(objectToModify) ? [] : {};
-  Object.assign(c, objectToModify);
-  if (selector("", c)) {
-    c = modifier(c);
-    if (maxLength === 0) {
-      return c;
-    }
-  }
-
-  return iterateAndModify(c, selector, modifier);
+  return iterateAndModify(objectToModify as NestedObject, selector, modifier);
 };

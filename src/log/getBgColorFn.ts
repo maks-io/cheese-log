@@ -2,12 +2,13 @@ import c, { AnsicolorMethods } from "ansicolor";
 import { CheeseColors } from "../types/CheeseColors";
 
 export const getBgColorFn = (
-  color?: CheeseColors
+  color?: CheeseColors,
 ): AnsicolorMethods | ((str: string) => string) => {
   if (!color) {
     return (str: string) => str;
   }
-  return {
+  return (
+    {
     gray: c.bgDarkGray,
     lightgray: c.bgLightGray,
     blue: c.bgBlue,
@@ -24,5 +25,6 @@ export const getBgColorFn = (
     lightmagenta: c.bgLightMagenta,
     black: c.bgBlack,
     white: c.bgWhite,
-  }[color.toLowerCase()];
+    }[color.toLowerCase()] ?? ((str: string) => str)
+  );
 };

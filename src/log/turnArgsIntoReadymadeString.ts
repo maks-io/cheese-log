@@ -1,5 +1,3 @@
-import { shortenStringsInObject } from "../helpers/shortenStringsInObject";
-import util from "util";
 import stringTable from "string-table";
 import { getTextColorFn } from "./getTextColorFn";
 import { CheeseColors } from "../types/CheeseColors";
@@ -20,12 +18,12 @@ export const turnArgsIntoReadymadeString = (
   table: boolean,
   depth: number,
   allColorsDisabled: boolean,
-  colorOverridePredefined: CheeseColors,
-  colorOverride: CheeseColors,
+  colorOverridePredefined: CheeseColors | undefined,
+  colorOverride: CheeseColors | undefined,
   autoColorizeObject: boolean,
   escapeWhitespaces: boolean,
   forceNewlines: boolean,
-  tableOptions: TableOptions
+  tableOptions: TableOptions,
 ): string => {
   if (args.length === 0) {
     return "(logging empty message)";
@@ -37,7 +35,7 @@ export const turnArgsIntoReadymadeString = (
         const textColorFn = getTextColorFn(
           allColorsDisabled
             ? undefined
-            : colorOverridePredefined ?? colorOverride
+            : colorOverridePredefined ?? colorOverride,
         );
 
         const tableValidationResult = validateTableData(arg);
@@ -48,8 +46,8 @@ export const turnArgsIntoReadymadeString = (
           return textColorFn(`\n(${errorMsg})\n`);
         }
 
-        const tableDataPrepared = arg.map((tableEntry) => {
-          const tableEntryPrepared = { ...tableEntry };
+        const tableDataPrepared = arg.map((tableEntry: Record<string, unknown>) => {
+          const tableEntryPrepared: Record<string, unknown> = { ...tableEntry };
           Object.keys(tableEntryPrepared).forEach((tableEntryKey) => {
             tableEntryPrepared[tableEntryKey] = processOneArg(
               tableEntryPrepared[tableEntryKey],
@@ -65,7 +63,7 @@ export const turnArgsIntoReadymadeString = (
               colorOverride,
               autoColorizeObject,
               escapeWhitespaces,
-              forceNewlines
+              forceNewlines,
             );
             return tableEntryPrepared[tableEntryKey];
           });
@@ -73,7 +71,7 @@ export const turnArgsIntoReadymadeString = (
         });
         const readymadeTableString = `\n${stringTable.create(
           tableDataPrepared,
-          tableOptions
+          tableOptions,
         )}\n`;
 
         return textColorFn(readymadeTableString);
@@ -93,7 +91,7 @@ export const turnArgsIntoReadymadeString = (
         colorOverride,
         autoColorizeObject,
         escapeWhitespaces,
-        forceNewlines
+        forceNewlines,
       );
     })
     .join(joiner);

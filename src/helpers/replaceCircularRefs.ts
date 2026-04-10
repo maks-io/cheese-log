@@ -6,9 +6,9 @@ export const replaceCircularRefs = (value: any, cache: any): any => {
 
     cache.add(value);
 
-    const o = Array.isArray(value) ? [] : {};
+    const o: Record<string, unknown> | unknown[] = Array.isArray(value) ? [] : {};
     for (const idx in value) {
-      o[idx] = replaceCircularRefs(value[idx], cache);
+      (o as Record<string, unknown>)[idx] = replaceCircularRefs(value[idx], cache);
     }
 
     cache.delete(value);

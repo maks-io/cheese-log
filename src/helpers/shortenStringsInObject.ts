@@ -4,36 +4,30 @@ const getPlaceholder = (numberOfRemovedChars: number) =>
   `[...and ${numberOfRemovedChars} more characters]`;
 
 export const shortenStringsInObject = (
-  objectToModify: NestedObject,
-  maxLength: number
-): object => {
+  objectToModify: unknown,
+  maxLength: number,
+): unknown => {
   if (!objectToModify) {
     return objectToModify;
   }
 
-  const selector = (_, value) =>
+  const selector = (_key: string, value: unknown) =>
     typeof value === "string" && value.length > maxLength;
-  const modifier =
+  const modifier: (value: unknown) => unknown =
     maxLength === 0
-      ? (value: any) => `[String(${value.length})]`
-      : (value: any) =>
-          `${value.substring(0, maxLength)}${getPlaceholder(
-            value.length - maxLength
+      ? (value) => `[String(${String(value).length})]`
+      : (value) =>
+          `${String(value).substring(0, maxLength)}${getPlaceholder(
+            String(value).length - maxLength
           )}`;
 
-  let c;
-  if (typeof objectToModify !== "object") {
-    c = objectToModify;
-  } else {
-    c = Array.isArray(objectToModify) ? [] : {};
-    Object.assign(c, objectToModify);
-  }
-  if (selector("", c)) {
-    c = modifier(c);
-    if (maxLength === 0) {
-      return c;
-    }
+  if (typeof objectToModify === "string") {
+    return selector("", objectToModify) ? modifier(objectToModify) : objectToModify;
   }
 
-  return iterateAndModify(c, selector, modifier);
+  if (typeof objectToModify !== "object") {
+    return objectToModify;
+  }
+
+  return iterateAndModify(objectToModify as NestedObject, selector, modifier);
 };

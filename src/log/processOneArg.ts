@@ -7,6 +7,8 @@ import { shortenArraysInObject } from "../helpers/shortenArraysInObject";
 import { CheeseColors } from "../types/CheeseColors";
 import { replaceCircularRefs } from "../helpers/replaceCircularRefs";
 
+type ColorFn = (value: string) => string;
+
 export const processOneArg = (
   arg: any,
   index: number,
@@ -17,8 +19,8 @@ export const processOneArg = (
   table: boolean,
   depth: number,
   allColorsDisabled: boolean,
-  colorOverridePredefined: CheeseColors,
-  colorOverride: CheeseColors,
+  colorOverridePredefined: CheeseColors | undefined,
+  colorOverride: CheeseColors | undefined,
   autoColorizeObject: boolean,
   escapeWhitespaces: boolean,
   forceNewlines: boolean,
@@ -62,15 +64,15 @@ export const processOneArg = (
   const highlightingClosingChar = allColorsDisabled ? "]" : "";
 
   if (maxStringLength !== undefined) {
-    const colorFn = allColorsDisabled
-      ? (s) => s
+    const colorFn: ColorFn = allColorsDisabled
+      ? (s: string) => s
       : colorOverride || colorOverridePredefined
-        ? (s) => {
+        ? (s: string) => {
             return getBgColorFn(colorOverride || colorOverridePredefined)(
               white(s),
             );
           }
-        : (s) => bgGreen(white(s));
+        : (s: string) => bgGreen(white(s));
 
     if (maxStringLength === 0) {
       inspectedObject = inspectedObject.replace(
@@ -88,15 +90,15 @@ export const processOneArg = (
   }
 
   if (maxArrayLength !== undefined) {
-    const colorFn = allColorsDisabled
-      ? (s) => s
+    const colorFn: ColorFn = allColorsDisabled
+      ? (s: string) => s
       : colorOverride || colorOverridePredefined
-        ? (s) => {
+        ? (s: string) => {
             return getBgColorFn(colorOverride || colorOverridePredefined)(
               white(s),
             );
           }
-        : (s) => bgLightRed(white(s));
+        : (s: string) => bgLightRed(white(s));
 
     if (maxArrayLength === 0) {
       inspectedObject = inspectedObject.replace(
@@ -114,16 +116,18 @@ export const processOneArg = (
   }
 
   // prettify [Object] entries:
-  const objectColorFn = allColorsDisabled ? (s) => s : (s) => bgCyan(white(s));
+  const objectColorFn: ColorFn = allColorsDisabled
+    ? (s: string) => s
+    : (s: string) => bgCyan(white(s));
   inspectedObject = inspectedObject.replace(
     /\[Object]/g,
     objectColorFn("[Object]"),
   );
 
   // prettify [Circular] entries:
-  const circularColorFn = allColorsDisabled
-    ? (s) => s
-    : (s) => bgDarkGray(white(s));
+  const circularColorFn: ColorFn = allColorsDisabled
+    ? (s: string) => s
+    : (s: string) => bgDarkGray(white(s));
   inspectedObject = inspectedObject.replace(
     /'\[Circular]'/g,
     circularColorFn("[Circular]"),

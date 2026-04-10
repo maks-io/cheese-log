@@ -5,6 +5,7 @@ import { CheeseConfig, CheeseConfigEffective } from "../types/CheeseConfig";
 import { CheeseColors } from "../types/CheeseColors";
 import { ContextDependentCheeseConfig } from "../types/ContextDependentCheeseConfig";
 import { turnArgsIntoReadymadeString } from "./turnArgsIntoReadymadeString";
+import { formatMessageDefault } from "./formatMessageDefault";
 
 export const prepareMsg = (
   logLevel: LogLevel,
@@ -17,36 +18,48 @@ export const prepareMsg = (
 ): string => {
   const millisecondsSince1970 = dayjs().valueOf();
 
-  const resultingCheeseConfig: CheeseConfig =
-    typeof configOverride === "function"
-      ? { ...globalCheeseConfig, ...configOverride(who, logLevel) }
-      : { ...globalCheeseConfig, ...configOverride };
+  const resolveCheeseConfig = (
+    cheeseConfig: CheeseConfig | ContextDependentCheeseConfig,
+  ): CheeseConfig =>
+    typeof cheeseConfig === "function" ? cheeseConfig(who, logLevel) : cheeseConfig;
 
-  const getEffectiveConfigProp = (propName: string) =>
-    typeof resultingCheeseConfig[propName] === "function"
-      ? resultingCheeseConfig[propName](who, logLevel)
-      : resultingCheeseConfig[propName];
+  const resultingCheeseConfig: CheeseConfig = {
+    ...resolveCheeseConfig(globalCheeseConfig),
+    ...resolveCheeseConfig(configOverride),
+  };
+
+  const resultingCheeseConfigRecord = resultingCheeseConfig as Record<
+    string,
+    unknown
+  >;
+
+  const getEffectiveConfigProp = (propName: string) => {
+    const value = resultingCheeseConfigRecord[propName];
+    return typeof value === "function" ? value(who, logLevel) : value;
+  };
 
   const resultingCheeseConfigEffective: CheeseConfigEffective = {
-    allColorsDisabled: getEffectiveConfigProp("allColorsDisabled"),
-    autoColorizeObject: getEffectiveConfigProp("autoColorizeObject"),
-    colorOverride: getEffectiveConfigProp("colorOverride"),
-    dateFormat: getEffectiveConfigProp("dateFormat"),
-    depth: getEffectiveConfigProp("depth"),
-    escapeWhitespaces: getEffectiveConfigProp("escapeWhitespaces"),
-    forceNewlines: getEffectiveConfigProp("forceNewlines"),
-    formatMessage: resultingCheeseConfig.formatMessage,
-    maxArrayLength: getEffectiveConfigProp("maxArrayLength"),
-    maxStringLength: getEffectiveConfigProp("maxStringLength"),
-    messagePrefix: getEffectiveConfigProp("messagePrefix"),
-    messageSuffix: getEffectiveConfigProp("messageSuffix"),
-    showCheeseIcon: getEffectiveConfigProp("showCheeseIcon"),
-    showDate: getEffectiveConfigProp("showDate"),
-    showLogLevel: getEffectiveConfigProp("showLogLevel"),
-    showOrigin: getEffectiveConfigProp("showOrigin"),
-    spaces: getEffectiveConfigProp("spaces"),
-    table: useTable || getEffectiveConfigProp("table"),
-    tableOptions: getEffectiveConfigProp("tableOptions"),
+    allColorsDisabled: getEffectiveConfigProp("allColorsDisabled") as boolean,
+    autoColorizeObject: getEffectiveConfigProp("autoColorizeObject") as boolean,
+    colorOverride: getEffectiveConfigProp("colorOverride") as
+      | CheeseColors
+      | undefined,
+    dateFormat: getEffectiveConfigProp("dateFormat") as string,
+    depth: getEffectiveConfigProp("depth") as number,
+    escapeWhitespaces: getEffectiveConfigProp("escapeWhitespaces") as boolean,
+    forceNewlines: getEffectiveConfigProp("forceNewlines") as boolean,
+    formatMessage: resultingCheeseConfig.formatMessage ?? formatMessageDefault,
+    maxArrayLength: getEffectiveConfigProp("maxArrayLength") as number,
+    maxStringLength: getEffectiveConfigProp("maxStringLength") as number,
+    messagePrefix: getEffectiveConfigProp("messagePrefix") as string | undefined,
+    messageSuffix: getEffectiveConfigProp("messageSuffix") as string | undefined,
+    showCheeseIcon: getEffectiveConfigProp("showCheeseIcon") as boolean,
+    showDate: getEffectiveConfigProp("showDate") as boolean,
+    showLogLevel: getEffectiveConfigProp("showLogLevel") as boolean,
+    showOrigin: getEffectiveConfigProp("showOrigin") as boolean,
+    spaces: getEffectiveConfigProp("spaces") as boolean,
+    table: useTable || (getEffectiveConfigProp("table") as boolean),
+    tableOptions: getEffectiveConfigProp("tableOptions") as any,
   };
 
   const {

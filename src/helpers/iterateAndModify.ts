@@ -1,37 +1,51 @@
-type ActualValue = string | number | Record<string, number> | null | undefined;
+type Primitive = string | number | boolean | bigint | symbol | null | undefined;
+
+export type NestedValue =
+  | Primitive
+  | {
+      [name: string]: NestedValue;
+    }
+  | NestedValue[];
 
 export type NestedObject =
   | {
-      [name: string]: ActualValue | NestedObject | NestedObject[];
+      [name: string]: NestedValue;
     }
-  | NestedObject[];
+  | NestedValue[];
+
+const isObjectLike = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null && !Array.isArray(value);
+
+const modifyNestedValue = (
+  value: NestedValue,
+  selector: (key: string, value: unknown) => boolean,
+  modifier: (value: unknown) => unknown,
+  key = "",
+): NestedValue => {
+  if (selector(key, value)) {
+    return modifier(value) as NestedValue;
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((entry) =>
+      modifyNestedValue(entry as NestedValue, selector, modifier),
+    );
+  }
+
+  if (isObjectLike(value)) {
+    return Object.fromEntries(
+      Object.entries(value).map(([childKey, childValue]) => [
+        childKey,
+        modifyNestedValue(childValue as NestedValue, selector, modifier, childKey),
+      ]),
+    ) as NestedObject;
+  }
+
+  return value;
+};
 
 export const iterateAndModify = (
-  o: NestedObject,
-  selector: (key: string, value: any) => boolean,
-  modifier: (value: any) => any
-): NestedObject => {
-  Object.keys(o).forEach(function (key: string) {
-    if (!o[key]) {
-      return;
-    }
-    if (typeof o[key] === "string" || typeof o[key] === "number") {
-      if (selector(key as string, o[key])) {
-        o[key] = modifier(o[key] as string | number);
-      }
-    } else if (typeof o[key] === "object") {
-      if (selector(key as string, o[key])) {
-        o[key] = modifier(o[key] as any);
-      } else if (Array.isArray(o[key])) {
-        (o[key] as NestedObject[]).forEach((k) => {
-          iterateAndModify(k, selector, modifier);
-        });
-      } else {
-        iterateAndModify(o[key] as NestedObject, selector, modifier);
-      }
-    } else {
-      // do nothing for other cases
-    }
-  });
-  return o;
-};
+  value: NestedObject,
+  selector: (key: string, value: unknown) => boolean,
+  modifier: (value: unknown) => unknown,
+): NestedObject => modifyNestedValue(value, selector, modifier) as NestedObject;

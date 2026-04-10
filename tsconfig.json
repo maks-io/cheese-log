@@ -1,19 +1,17 @@
 {
   "compilerOptions": {
-    "baseUrl": "src",
-    "emitDecoratorMetadata": true,
     "esModuleInterop": true,
-    "experimentalDecorators": true,
     "lib": ["ES2020", "DOM"],
-    "moduleResolution": "Node",
-    "module": "ES6",
-    "outDir": "build",
-    "jsx": "react",
+    "module": "CommonJS",
+    "target": "ES2020",
+    "rootDir": "src",
+    "outDir": "build-tmp",
     "declaration": true,
-    "paths": {
-      "$/*": ["./src/*"]
-    }
+    "declarationDir": "build/types",
+    "noEmitOnError": true,
+    "skipLibCheck": true,
+    "types": ["node", "jest"]
   },
   "include": ["src"],
-  "exclude": ["node_modules", "**/*.spec.ts"]
+  "exclude": ["node_modules", "**/*.spec.ts", "**/*.test.ts"]
 }

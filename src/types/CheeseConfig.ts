@@ -35,17 +35,17 @@ export interface CheeseConfig {
 export interface CheeseConfigEffective {
   allColorsDisabled: boolean;
   autoColorizeObject: boolean;
-  colorOverride: CheeseColors;
+  colorOverride?: CheeseColors;
   dateFormat: string;
   depth: number;
   escapeWhitespaces: boolean;
   forceNewlines: boolean;
-  formatMessage?: FormatMessageFn;
+  formatMessage: FormatMessageFn;
   logLevelEnabled?: LogLevelEnabledFn;
   maxArrayLength: number;
   maxStringLength: number;
-  messagePrefix: string;
-  messageSuffix: string;
+  messagePrefix?: string;
+  messageSuffix?: string;
   showCheeseIcon: boolean;
   showDate: boolean;
   showLogLevel: boolean;
@@ -62,6 +62,7 @@ export const cheeseConfigAllowedKeys = [
   "dateFormat",
   "depth",
   "escapeWhitespaces",
+  "forceNewlines",
   "formatMessage",
   "logLevelEnabled",
   "maxArrayLength",

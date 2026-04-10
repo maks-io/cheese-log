@@ -23,7 +23,7 @@ let cheese: CheeseLog;
 
 let globalCheeseConfig: CheeseConfig | ContextDependentCheeseConfig;
 
-const cheeseLogFunctions = {};
+const cheeseLogFunctions: Record<string, unknown> = {};
 
 const getGlobalCheeseConfigEffective = (): CheeseConfig => ({
   ...cheeseConfigDefault,
@@ -136,7 +136,7 @@ const initializeFunctions = (
   logLevelEnabledFn?: LogLevelEnabledFn,
   cheeseInstance?: CheeseLog,
 ): CheeseLog => {
-  const functionHolder = cheeseInstance
+  const functionHolder: Record<string, unknown> = cheeseInstance
     ? Object.assign({}, cheeseInstance)
     : cheeseLogFunctions;
 

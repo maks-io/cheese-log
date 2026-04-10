@@ -1,18 +1,33 @@
-export const getStackTrace = () => {
-  let stack: string = "";
+const INTERNAL_FRAME_MARKERS = ["cheese-log/", "cheese-log@"];
 
-  try {
-    throw new Error("");
-  } catch (error) {
-    stack = error.stack || "";
+export const extractFirstRelevantStackFrame = (
+  stack: string | undefined,
+): string | undefined => {
+  if (!stack) {
+    return undefined;
   }
 
-  const s: string[] = stack.split("\n").map(function (line) {
-    return line.trim();
-  });
-  return s
-    .splice(stack[0] == "Error" ? 2 : 1)
-    .filter(
-      (l) => !l.includes("cheese-log/") && !l.includes("cheese-log@"),
-    )?.[0];
+  const lines = stack
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  const stackFrames =
+    lines[0]?.startsWith("Error") || lines[0]?.startsWith("TypeError")
+      ? lines.slice(1)
+      : lines;
+
+  return stackFrames.find(
+    (line) => !INTERNAL_FRAME_MARKERS.some((marker) => line.includes(marker)),
+  );
+};
+
+export const getStackTrace = () => {
+  try {
+    throw new Error();
+  } catch (error) {
+    return extractFirstRelevantStackFrame(
+      error instanceof Error ? error.stack : undefined,
+    );
+  }
 };

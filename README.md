@@ -19,7 +19,9 @@ This logger is not intended to be highly performant, if you are looking for some
 ## README Overview
 
 1. [Install](#install)
-2. [Usage examples](#usage-examples)
+2. [Development](#development)
+3. [Release workflow](#release-workflow)
+4. [Usage examples](#usage-examples)
    1. [Simple usage](#example-simple-usage)
    2. [Explore some initial config's props](#example-explore-some-initial-configs-props)
    3. [Override config for individual log messages](#example-override-config-for-individual-log-messages)
@@ -31,13 +33,13 @@ This logger is not intended to be highly performant, if you are looking for some
    9. [Shorten arrays](#example-shorten-arrays)
    10. [Limit object depth](#example-limit-object-depth)
    11. [Print tables](#example-print-tables)
-3. [Config / options](#config--options)
-4. [Available functions](#available-functions)
+5. [Config / options](#config--options)
+6. [Available functions](#available-functions)
    1. [Config function](#config-function)
    2. [Basic logging functions](#basic-logging-functions)
    3. [Built-in table functions](#built-in-table-functions)
    4. [Built-in color functions](#built-in-color-functions)
-5. [Open tasks / ideas](#open-tasks--ideas)
+7. [Open tasks / ideas](#open-tasks--ideas)
 
 ## Install
 
@@ -45,11 +47,35 @@ This logger is not intended to be highly performant, if you are looking for some
 npm install --save cheese-log
 ```
 
-Or if you use Yarn:
+## Development
 
+This repository uses `npm` for local development and automation.
+
+```bash
+npm install
+npm run verify
+npm run commit
 ```
-yarn add cheese-log
-```
+
+The local commit helper is intentionally a small custom script instead of `commitizen` to avoid extra transitive maintenance and vulnerability surface.
+
+Useful commands:
+
+- `npm run verify`: build the package and run the test suite
+- `npm run pack:check`: preview the published tarball contents locally
+- `npm run release:dry-run`: preview the semantic-release flow without publishing
+
+## Release workflow
+
+Releases are automated with `semantic-release` in GitHub Actions.
+
+- CI runs `npm ci` and `npm run verify`.
+- Releases run on pushes to `main` or `master`, plus manual workflow dispatch.
+- The workflow is designed for protected branches and does not rely on pushing version or changelog commits back to git.
+- Git tags, npm releases, and GitHub Releases are the release source of truth.
+- Because of that, the `package.json` version committed on `main` can lag behind the latest published version.
+- npm Trusted Publishing via GitHub Actions OIDC is the intended publish path. Configure that on npm before the first automated release for this package.
+- The latest historical release has been backfilled locally as tag `v4.0.1` so future semantic-release runs can continue from the correct version line.
 
 ## Usage examples
 

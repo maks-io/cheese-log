@@ -2,12 +2,13 @@ import c, { AnsicolorMethods } from "ansicolor";
 import { CheeseColors } from "../types/CheeseColors";
 
 export const getTextColorFn = (
-  color?: CheeseColors
+  color?: CheeseColors,
 ): AnsicolorMethods | ((str: string) => string) => {
   if (!color) {
     return (str: string) => str;
   }
-  return {
+  return (
+    {
     gray: c.darkGray,
     lightgray: c.lightGray,
     blue: c.blue,
@@ -24,5 +25,6 @@ export const getTextColorFn = (
     lightmagenta: c.lightMagenta,
     black: c.black,
     white: c.white,
-  }[color.toLowerCase()];
+    }[color.toLowerCase()] ?? ((str: string) => str)
+  );
 };

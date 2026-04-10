@@ -26,9 +26,9 @@ export const formatMessageDefault: FormatMessageFn = (
   autoColorizeObject: boolean,
   showCheeseIcon: boolean,
   allColorsDisabled: boolean,
-  colorOverride: string,
-  messagePrefix: string,
-  messageSuffix: string,
+  colorOverride: string | undefined,
+  messagePrefix: string | undefined,
+  messageSuffix: string | undefined,
 ) => {
   const cheeseIconPrepared = showCheeseIcon ? CHEESE_ICON + " " : "";
   const messagePrefixPrepared = messagePrefix ? messagePrefix + " " : "";
